@@ -1,4 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    name="miniMechaCode" nsURI="http://www.example.org/miniMechaCode"
-    nsPrefix="miniMechaCode"/>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="miniMechaCode" nsURI="http://www.example.org/miniMechaCode"
+    nsPrefix="miniMechaCode">
+  <eClassifiers xsi:type="ecore:EClass" name="MiniMechaCode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Number" eSuperTypes="#//Type"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Distance" abstract="true" eSuperTypes="#//Number"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Cm" eSuperTypes="#//Distance"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Mm" eSuperTypes="#//Distance"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Rotation" abstract="true" eSuperTypes="#//Number"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Rad" eSuperTypes="#//Rotation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Deg" eSuperTypes="#//Rotation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Duration" abstract="true" eSuperTypes="#//Number"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Sec" eSuperTypes="#//Duration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Ms" eSuperTypes="#//Duration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Min" eSuperTypes="#//Duration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Hr" eSuperTypes="#//Duration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Type"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Bool" eSuperTypes="#//Type"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="Sensor">
+    <eLiterals name="Time" literal="Time"/>
+    <eLiterals name="Distance" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Direction">
+    <eLiterals name="Forward"/>
+    <eLiterals name="Backward" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DefVariable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//Type"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Statement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Minus" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Multi" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Div" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NumberLieral" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Plus" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RefVariable" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanLitteral" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
+  </eClassifiers>
+</ecore:EPackage>
