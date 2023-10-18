@@ -9,35 +9,16 @@
   <foreignModel>miniMechaCode.ecore</foreignModel>
   <testsDirectory xsi:nil="true"/>
   <genPackages prefix="MiniMechaCode" disposableProviderFactory="true" ecorePackage="miniMechaCode.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="miniMechaCode.ecore#//Sensor">
-      <genEnumLiterals ecoreEnumLiteral="miniMechaCode.ecore#//Sensor/Time"/>
-      <genEnumLiterals ecoreEnumLiteral="miniMechaCode.ecore#//Sensor/Distance"/>
-    </genEnums>
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="miniMechaCode.ecore#//Direction">
-      <genEnumLiterals ecoreEnumLiteral="miniMechaCode.ecore#//Direction/Forward"/>
-      <genEnumLiterals ecoreEnumLiteral="miniMechaCode.ecore#//Direction/Backward"/>
-    </genEnums>
     <genClasses ecoreClass="miniMechaCode.ecore#//MiniMechaCode">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//MiniMechaCode/statements"/>
     </genClasses>
     <genClasses ecoreClass="miniMechaCode.ecore#//Number"/>
-    <genClasses ecoreClass="miniMechaCode.ecore#//Distance"/>
-    <genClasses ecoreClass="miniMechaCode.ecore#//Cm"/>
-    <genClasses ecoreClass="miniMechaCode.ecore#//Mm"/>
-    <genClasses ecoreClass="miniMechaCode.ecore#//Rotation"/>
-    <genClasses ecoreClass="miniMechaCode.ecore#//Rad"/>
-    <genClasses ecoreClass="miniMechaCode.ecore#//Deg"/>
-    <genClasses ecoreClass="miniMechaCode.ecore#//Duration"/>
-    <genClasses ecoreClass="miniMechaCode.ecore#//Sec"/>
-    <genClasses ecoreClass="miniMechaCode.ecore#//Ms"/>
-    <genClasses ecoreClass="miniMechaCode.ecore#//Min"/>
-    <genClasses ecoreClass="miniMechaCode.ecore#//Hr"/>
     <genClasses ecoreClass="miniMechaCode.ecore#//Type"/>
-    <genClasses ecoreClass="miniMechaCode.ecore#//Bool"/>
+    <genClasses ecoreClass="miniMechaCode.ecore#//Boolean"/>
     <genClasses ecoreClass="miniMechaCode.ecore#//DefVariable">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute miniMechaCode.ecore#//DefVariable/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//DefVariable/type"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//DefVariable/value"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//DefVariable/type"/>
     </genClasses>
     <genClasses ecoreClass="miniMechaCode.ecore#//Statement"/>
     <genClasses ecoreClass="miniMechaCode.ecore#//Expression"/>
@@ -54,13 +35,14 @@
     <genClasses ecoreClass="miniMechaCode.ecore#//BooleanLitteral">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute miniMechaCode.ecore#//BooleanLitteral/value"/>
     </genClasses>
-    <genClasses ecoreClass="miniMechaCode.ecore#//Function">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute miniMechaCode.ecore#//Function/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//Function/statements"/>
+    <genClasses ecoreClass="miniMechaCode.ecore#//DefFunction">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute miniMechaCode.ecore#//DefFunction/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//DefFunction/statements"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//DefFunction/parameters"/>
     </genClasses>
-    <genClasses ecoreClass="miniMechaCode.ecore#//Loupe">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//Loupe/condition"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//Loupe/statements"/>
+    <genClasses ecoreClass="miniMechaCode.ecore#//Loop">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//Loop/condition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//Loop/statements"/>
     </genClasses>
     <genClasses ecoreClass="miniMechaCode.ecore#//GreaterOrEqual"/>
     <genClasses ecoreClass="miniMechaCode.ecore#//Greater"/>
@@ -69,9 +51,6 @@
     <genClasses ecoreClass="miniMechaCode.ecore#//Or"/>
     <genClasses ecoreClass="miniMechaCode.ecore#//And"/>
     <genClasses ecoreClass="miniMechaCode.ecore#//Not"/>
-    <genClasses ecoreClass="miniMechaCode.ecore#//Rotate">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute miniMechaCode.ecore#//Rotate/name"/>
-    </genClasses>
     <genClasses ecoreClass="miniMechaCode.ecore#//BinaryOperator">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//BinaryOperator/right"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//BinaryOperator/left"/>
@@ -81,6 +60,30 @@
     <genClasses ecoreClass="miniMechaCode.ecore#//FunctionCall">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute miniMechaCode.ecore#//FunctionCall/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//FunctionCall/parameters"/>
+    </genClasses>
+    <genClasses ecoreClass="miniMechaCode.ecore#//UnaryOperator">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//UnaryOperator/right"/>
+    </genClasses>
+    <genClasses ecoreClass="miniMechaCode.ecore#//UnitOperator">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//UnitOperator/left"/>
+    </genClasses>
+    <genClasses ecoreClass="miniMechaCode.ecore#//Mm"/>
+    <genClasses ecoreClass="miniMechaCode.ecore#//Cm"/>
+    <genClasses ecoreClass="miniMechaCode.ecore#//Action"/>
+    <genClasses ecoreClass="miniMechaCode.ecore#//Rotate">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//Rotate/angle"/>
+    </genClasses>
+    <genClasses ecoreClass="miniMechaCode.ecore#//Forward">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//Forward/distance"/>
+    </genClasses>
+    <genClasses ecoreClass="miniMechaCode.ecore#//Void"/>
+    <genClasses ecoreClass="miniMechaCode.ecore#//FunctionParameter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute miniMechaCode.ecore#//FunctionParameter/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//FunctionParameter/type"/>
+    </genClasses>
+    <genClasses ecoreClass="miniMechaCode.ecore#//Convertion">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//Convertion/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference miniMechaCode.ecore#//Convertion/unit"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
