@@ -1,9 +1,9 @@
 grammar MiniMechaCode
 import 'Terminals'
-import 'ecoreIntro-types'
+import 'types'
 
 entry Model returns Model:
-    {Model} statements+=Statement  
+    {Model} statements+=Statement*
 ;
 
 Statement returns Statement:
@@ -11,11 +11,15 @@ Statement returns Statement:
 ;
 
 Expression returns Expression:
-    Minus | Multi | Div | NumberLitteral | Plus | RefVariable | BooleanLitteral | Greater | Less | Equal | Or | And | Not | FunctionCall | Mm | Cm | Convertion 
+    PrimaryExpression | Plus | Minus | Multi | Div | Greater | Less | Equal | Or | And | Mm | Cm | Convertion
+;
+
+PrimaryExpression returns Expression:
+    NumberLitteral | RefVariable | BooleanLitteral | FunctionCall
 ;
 
 UnitOperator returns UnitOperator:
-    Mm | Cm 
+    Mm | Cm
 ;
 
 DefVariable returns DefVariable:
@@ -23,27 +27,28 @@ DefVariable returns DefVariable:
 ;
 
 Minus returns Minus:
-    right=Expression '➖' left=Expression
+    left=PrimaryExpression '➖' right=Expression
 ;
 
 Multi returns Multi:
-     right=Expression '✖️' left=Expression
+    left=PrimaryExpression '✖️' right=Expression
 ;
 
 Div returns Div:
-     right=Expression '➗' left=Expression
+    left=PrimaryExpression '➗' right=Expression
 ;
 
 Plus returns Plus:
-    right=Expression '➕' left=Expression
+    left=PrimaryExpression '➕' right=Expression
 ;
 
+
 NumberLitteral returns NumberLitteral:
-   value=INT  
+    value=INT
 ;
 
 RefVariable returns RefVariable:
-    name=ID  
+    name=ID
 ;
 
 BooleanLitteral returns BooleanLitteral:
@@ -55,27 +60,27 @@ DefFunction returns DefFunction:
 ;
 
 Loop returns Loop:
-    'loop' condition=Expression '{'  statements+=Statement* '}'  
+    'loop' condition=Expression '{'  statements+=Statement* '}'
 ;
 
 Greater returns Greater:
-     right=Expression '>' left=Expression
+    left=PrimaryExpression '>' right=Expression
 ;
 
 Less returns Less:
-    right=Expression '<' left=Expression 
+    left=PrimaryExpression '<' right=Expression
 ;
 
 Equal returns Equal:
-    right=Expression '==' left=Expression 
+    left=PrimaryExpression '==' right=Expression
 ;
 
 Or returns Or:
-    right=Expression '|' left=Expression
+    left=PrimaryExpression '|' right=Expression
 ;
 
 And returns And:
-    right=Expression '&' left=Expression
+    left=PrimaryExpression '&' right=Expression
 ;
 
 Not returns Not:
@@ -85,12 +90,12 @@ Not returns Not:
 FunctionCall returns FunctionCall:
     name=ID '(' (parameters+=Expression  ("," parameters+=Expression  )*)? ')'
 ;
-Mm returns Mm:
-    left=Expression 'mm'
-;
 
+Mm returns Mm:
+    left=PrimaryExpression 'mm'
+;
 Cm returns Cm:
-    left=Expression 'cm'
+    left=PrimaryExpression 'cm'
 ;
 
 Rotate returns Rotate:
@@ -102,11 +107,11 @@ Forward returns Forward:
 ;
 
 Convertion returns Convertion:
-    left=Expression 'in' unit=UnitOperator
+    left=PrimaryExpression 'in' unit=UnitOperator
 ;
 
 
 FunctionParameter returns FunctionParameter:
-    type=Type name=ID 
+    type=Type name=ID
 ;
 

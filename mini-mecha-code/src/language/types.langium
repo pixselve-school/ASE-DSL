@@ -1,3 +1,4 @@
+
 interface Model {
 	statements: Statement[]
 }
@@ -18,9 +19,12 @@ Type returns Type:
     NumberType | BooleanType | VoidType
 ;
 
-NumberType returns string: 'number';
-BooleanType returns string: 'boolean';
-VoidType returns string: 'void';
+NumberType returns string:
+    'number';
+BooleanType returns string:
+    'boolean';
+VoidType returns string:
+    'void';
 
 
 interface DefVariable extends Statement {
