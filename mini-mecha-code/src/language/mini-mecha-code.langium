@@ -7,7 +7,11 @@ entry Model returns Model:
 ;
 
 Statement returns Statement:
-    DefVariable | DefFunction | Loop | FunctionCall | Rotate | Forward
+    DefVariable | DefFunction | Loop | FunctionCall | Rotate | Forward | VarAssignment
+;
+
+VarAssignment returns VarAssignment:
+    name=ID '=' value=Expression
 ;
 
 Expression returns Expression:

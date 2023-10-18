@@ -41,9 +41,13 @@ MUnit returns string:
 CmUnit returns string:
     'm';
 
+interface VarAssignment extends Statement {
+	name: string
+	value: Expression
+}
 
 interface DefVariable extends Statement {
-	name?: string
+	name: string
 	value: Expression
 	varType: Type
 }
@@ -66,29 +70,29 @@ interface Div extends MechaMath {
 }
 
 interface NumberLitteral extends Expression {
-	value?: number
+	value: number
 }
 
 interface Plus extends MechaMath {
 }
 
 interface RefVariable extends Expression {
-	name?: string
+	name: string
 }
 
 interface BooleanLitteral extends Expression {
-	value?: boolean
+	value: boolean
 }
 
 interface DefFunction extends Statement {
-	name?: string
+	name: string
 	returnType: Type
 	statements: Statement[]
 	parameters: FunctionParameter[]
 }
 
 interface FunctionParameter {
-	name?: string
+	name: string
 	^type: Type
 }
 
@@ -123,7 +127,7 @@ interface UnaryOperator extends Expression {
 }
 
 interface FunctionCall extends Expression {
-	name?: string
+	name: string
 	parameters: Expression[]
 }
 
