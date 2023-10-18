@@ -1,0 +1,15 @@
+{
+    "projectName": "MiniMechaCode",
+    "languages": [{
+        "id": "mini-mecha-code",
+        "grammar": "src/language/mini-mecha-code.langium",
+        "fileExtensions": [".mini"],
+        "textMate": {
+            "out": "syntaxes/mini-mecha-code.tmLanguage.json"
+        },
+        "monarch": {
+            "out": "syntaxes/mini-mecha-code.monarch.ts"
+        }
+    }],
+    "out": "src/language/generated"
+}
