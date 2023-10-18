@@ -11,7 +11,7 @@ Statement returns Statement:
 ;
 
 Expression returns Expression:
-    PrimaryExpression | Plus | Minus | Multi | Div | Greater | Less | Equal | Or | And | Mm | Cm | Convertion
+    PrimaryExpression | Plus | Minus | Multi | Div | Greater | Less | Equal | Or | And | UnitOperator | Convertion | Not
 ;
 
 PrimaryExpression returns Expression:
@@ -19,7 +19,7 @@ PrimaryExpression returns Expression:
 ;
 
 UnitOperator returns UnitOperator:
-    Mm | Cm
+    left=PrimaryExpression unit=Unit
 ;
 
 DefVariable returns DefVariable:
@@ -44,7 +44,7 @@ Plus returns Plus:
 
 
 NumberLitteral returns NumberLitteral:
-    value=INT
+    value=NUMBER
 ;
 
 RefVariable returns RefVariable:
@@ -91,13 +91,6 @@ FunctionCall returns FunctionCall:
     name=ID '(' (parameters+=Expression  ("," parameters+=Expression  )*)? ')'
 ;
 
-Mm returns Mm:
-    left=PrimaryExpression 'mm'
-;
-Cm returns Cm:
-    left=PrimaryExpression 'cm'
-;
-
 Rotate returns Rotate:
     'Clock' angle=Expression
 ;
@@ -107,7 +100,7 @@ Forward returns Forward:
 ;
 
 Convertion returns Convertion:
-    left=PrimaryExpression 'in' unit=UnitOperator
+    left=PrimaryExpression 'in' unit=Unit
 ;
 
 

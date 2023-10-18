@@ -11,6 +11,7 @@ interface Expression extends Statement {
 
 interface UnitOperator extends Expression {
 	left: Expression
+	unit: Unit
 }
 
 type Type = 'number' | 'boolean' | 'void';
@@ -25,6 +26,20 @@ BooleanType returns string:
     'boolean';
 VoidType returns string:
     'void';
+
+
+type Unit = 'mm' | 'cm' | 'm';
+
+Unit returns Unit:
+    MmUnit | MUnit | CmUnit
+;
+
+MmUnit returns string:
+    'mm';
+MUnit returns string:
+    'cm';
+CmUnit returns string:
+    'm';
 
 
 interface DefVariable extends Statement {
@@ -131,5 +146,5 @@ interface Forward extends Action {
 
 interface Convertion extends Expression {
 	left: Expression
-	unit: UnitOperator
+	unit: Unit
 }
