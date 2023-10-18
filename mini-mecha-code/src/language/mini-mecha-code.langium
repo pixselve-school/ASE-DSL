@@ -27,19 +27,19 @@ DefVariable returns DefVariable:
 ;
 
 Minus returns Minus:
-    left=PrimaryExpression '➖' right=Expression
+    left=PrimaryExpression '-' right=Expression
 ;
 
 Multi returns Multi:
-    left=PrimaryExpression '✖️' right=Expression
+    left=PrimaryExpression '*' right=Expression
 ;
 
 Div returns Div:
-    left=PrimaryExpression '➗' right=Expression
+    left=PrimaryExpression '/' right=Expression
 ;
 
 Plus returns Plus:
-    left=PrimaryExpression '➕' right=Expression
+    left=PrimaryExpression '+' right=Expression
 ;
 
 
