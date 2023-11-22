@@ -23,9 +23,11 @@ export function registerValidationChecks(services: MiniMechaCodeServices) {
     DefFunction: [
       validator.checkFunctionIsNotAlreadyDefined,
       validator.checkThatTheEntryFunctionIsNotUsingParameters,
-      validator.checkThatAllFunctionParametersAreUnique,
     ],
-    Model: validator.checkThatTheProgramHasAnEntryFunction,
+    Model: [
+      (model)=>console.log(model), 
+      validator.checkThatTheProgramHasAnEntryFunction
+    ],
     FunctionCall:
       validator.checkThatFunctionCallIsUsingCorrectNumberOfParameters,
   };
@@ -48,7 +50,6 @@ export class MiniMechaCodeValidator {
     accept: ValidationAcceptor,
   ): void {
     const parent = defVariable.$container;
-
     if (isLoop(parent)) {
       const loop = parent as Loop;
       for (let statement of loop.statements) {
@@ -75,13 +76,14 @@ export class MiniMechaCodeValidator {
     if (isDefFunction(parent)) {
       const functionDef = parent as DefFunction;
       if (
-        functionDef.parameters.find((param) => param.name === defVariable.name)
+        functionDef.parameters.find((param) => param !== defVariable && param.name === defVariable.name)
       ) {
         accept("error", `Duplicated identifier ${defVariable.name}.`, {
           code: "variable.alreadyDefined",
           node: defVariable,
           property: "name",
         });
+        return;
       }
       for (let statement of functionDef.statements) {
         if (statement === defVariable) {
@@ -133,31 +135,6 @@ export class MiniMechaCodeValidator {
           property: "name",
         });
       }
-    }
-  }
-
-  /**
-   * Checks if all function parameters are unique.
-   *
-   * @param {FunctionParameter} parameter - The parameter to check.
-   * @param {ValidationAcceptor} accept - The validation acceptor to report errors.
-   * @returns {void}
-   */
-  checkThatAllFunctionParametersAreUnique(
-    functionDef: DefFunction,
-    accept: ValidationAcceptor,
-  ): void {
-    const parameterNames = functionDef.parameters.map((param) => param.name);
-    const uniqueNames = new Set();
-    for (let name of parameterNames) {
-      if (uniqueNames.has(name)) {
-        accept("error", `Duplicated identifier ${name}.`, {
-          code: "parameter.alreadyDefined",
-          node: functionDef,
-          property: "name",
-        });
-      }
-      uniqueNames.add(name);
     }
   }
 
