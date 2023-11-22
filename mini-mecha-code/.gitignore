@@ -9,3 +9,4 @@ src/language/generated/
 public/monaco-editor-workers/
 public/monaco-editor-wrapper/
 public/mini-mecha-code-server-worker.js
+.idea
