@@ -30,6 +30,10 @@ DefVariable returns DefVariable:
     'var' varType=Type name=ID '=' value=Expression
 ;
 
+FunctionParameter returns DefVariable:
+    varType=Type name=ID
+;
+
 Minus returns Minus:
     left=PrimaryExpression '-' right=Expression
 ;
@@ -46,7 +50,6 @@ Plus returns Plus:
     left=PrimaryExpression '+' right=Expression
 ;
 
-
 NumberLitteral returns NumberLitteral:
     value=NUMBER
 ;
@@ -61,7 +64,7 @@ BooleanLitteral returns BooleanLitteral:
 
 DefFunction returns DefFunction:
     'let' returnType=Type name=ID '(' (parameters+=FunctionParameter  ("," parameters+=FunctionParameter  )*)? ')' '{' statements+=Statement* '}'
-;
+; 
 
 Loop returns Loop:
     'loop' condition=Expression '{'  statements+=Statement* '}'
@@ -105,10 +108,5 @@ Forward returns Forward:
 
 Convertion returns Convertion:
     left=PrimaryExpression 'in' unit=Unit
-;
-
-
-FunctionParameter returns FunctionParameter:
-    type=Type name=ID
 ;
 

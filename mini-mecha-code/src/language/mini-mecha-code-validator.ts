@@ -3,7 +3,6 @@ import {
   type DefFunction,
   type DefVariable,
   type FunctionCall,
-  FunctionParameter,
   Loop,
   type MiniMechaCodeAstType,
   Model,
@@ -22,8 +21,7 @@ export function registerValidationChecks(services: MiniMechaCodeServices) {
   const validator = services.validation.MiniMechaCodeValidator;
   const checks: ValidationChecks<MiniMechaCodeAstType> = {
     DefVariable: validator.checkDefVariableIsNotAlreadyDefined,
-    DefFunction: validator.checkFunctionIsNotAlreadyDefined,
-    FunctionParameter: validator.checkThatAllFunctionParametersAreUnique,
+    DefFunction: [validator.checkFunctionIsNotAlreadyDefined, validator.checkThatAllFunctionParametersAreUnique],
     Model: validator.checkThatTheProgramHasAnEntryFunction,
   };
   registry.register(checks, validator);
@@ -138,25 +136,20 @@ export class MiniMechaCodeValidator {
    * @returns {void}
    */
   checkThatAllFunctionParametersAreUnique(
-    parameter: FunctionParameter,
+    functionDef: DefFunction,
     accept: ValidationAcceptor,
   ): void {
-    const functionDef = parameter.$container;
-    if (!isDefFunction(functionDef)) {
-      return;
-    }
-    const parameters = functionDef.parameters;
-    for (let parameterInLoop of parameters) {
-      if (parameterInLoop === parameter) {
-        break;
-      }
-      if (parameterInLoop.name === parameter.name) {
-        accept("error", `Duplicated identifier ${parameter.name}.`, {
+    const parameterNames = functionDef.parameters.map((param) => param.name);
+    const uniqueNames = new Set();
+    for (let name of parameterNames) {
+      if (uniqueNames.has(name)) {
+        accept("error", `Duplicated identifier ${name}.`, {
           code: "parameter.alreadyDefined",
-          node: parameter,
+          node: functionDef,
           property: "name",
         });
       }
+      uniqueNames.add(name);
     }
   }
 
