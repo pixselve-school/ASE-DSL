@@ -1,6 +1,6 @@
 
 interface Model {
-	statements: Statement[]
+	functions: DefFunction[]
 }
 
 interface Statement {
@@ -42,7 +42,7 @@ CmUnit returns string:
     'm';
 
 interface VarAssignment extends Statement {
-	name: string
+	ref: @DefVariable
 	value: Expression
 }
 
@@ -77,7 +77,7 @@ interface Plus extends MechaMath {
 }
 
 interface RefVariable extends Expression {
-	name: string
+	ref: @DefVariable
 }
 
 interface BooleanLitteral extends Expression {
@@ -127,7 +127,7 @@ interface UnaryOperator extends Expression {
 }
 
 interface FunctionCall extends Expression {
-	name: string
+	ref: @DefFunction
 	parameters: Expression[]
 }
 

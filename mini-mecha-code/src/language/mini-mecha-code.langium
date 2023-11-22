@@ -3,15 +3,15 @@ import 'Terminals'
 import 'types'
 
 entry Model returns Model:
-    {Model} statements+=Statement*
+    {Model} functions+=DefFunction*
 ;
 
 Statement returns Statement:
-    DefVariable | DefFunction | Loop | FunctionCall | Rotate | Forward | VarAssignment
+    DefVariable | Loop | FunctionCall | Rotate | Forward | VarAssignment
 ;
 
 VarAssignment returns VarAssignment:
-    name=ID '=' value=Expression
+    ref=[DefVariable:ID] '=' value=Expression
 ;
 
 Expression returns Expression:
@@ -52,7 +52,7 @@ NumberLitteral returns NumberLitteral:
 ;
 
 RefVariable returns RefVariable:
-    name=ID
+    ref=[DefVariable:ID]
 ;
 
 BooleanLitteral returns BooleanLitteral:
@@ -92,7 +92,7 @@ Not returns Not:
 ;
 
 FunctionCall returns FunctionCall:
-    name=ID '(' (parameters+=Expression  ("," parameters+=Expression  )*)? ')'
+    ref=[DefFunction:ID] '(' (parameters+=Expression  ("," parameters+=Expression  )*)? ')'
 ;
 
 Rotate returns Rotate:
