@@ -48,8 +48,8 @@ interface VarAssignment extends Statement {
 
 interface DefVariable extends Statement {
 	name: string
-	value: Expression
 	varType: Type
+	value?: Expression
 }
 
 interface Minus extends MechaMath {
@@ -88,12 +88,7 @@ interface DefFunction extends Statement {
 	name: string
 	returnType: Type
 	statements: Statement[]
-	parameters: FunctionParameter[]
-}
-
-interface FunctionParameter {
-	name: string
-	^type: Type
+	parameters: DefVariable[]
 }
 
 interface Loop extends Statement {

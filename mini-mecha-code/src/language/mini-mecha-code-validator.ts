@@ -3,7 +3,6 @@ import {
   type DefFunction,
   type DefVariable,
   type FunctionCall,
-  FunctionParameter,
   Loop,
   type MiniMechaCodeAstType,
   Model,
@@ -25,8 +24,10 @@ export function registerValidationChecks(services: MiniMechaCodeServices) {
       validator.checkFunctionIsNotAlreadyDefined,
       validator.checkThatTheEntryFunctionIsNotUsingParameters,
     ],
-    FunctionParameter: validator.checkThatAllFunctionParametersAreUnique,
-    Model: validator.checkThatTheProgramHasAnEntryFunction,
+    Model: [
+      (model)=>console.log(model), 
+      validator.checkThatTheProgramHasAnEntryFunction
+    ],
     FunctionCall:
       validator.checkThatFunctionCallIsUsingCorrectNumberOfParameters,
   };
@@ -49,7 +50,6 @@ export class MiniMechaCodeValidator {
     accept: ValidationAcceptor,
   ): void {
     const parent = defVariable.$container;
-
     if (isLoop(parent)) {
       const loop = parent as Loop;
       for (let statement of loop.statements) {
@@ -76,13 +76,14 @@ export class MiniMechaCodeValidator {
     if (isDefFunction(parent)) {
       const functionDef = parent as DefFunction;
       if (
-        functionDef.parameters.find((param) => param.name === defVariable.name)
+        functionDef.parameters.find((param) => param !== defVariable && param.name === defVariable.name)
       ) {
         accept("error", `Duplicated identifier ${defVariable.name}.`, {
           code: "variable.alreadyDefined",
           node: defVariable,
           property: "name",
         });
+        return;
       }
       for (let statement of functionDef.statements) {
         if (statement === defVariable) {
@@ -131,36 +132,6 @@ export class MiniMechaCodeValidator {
         accept("error", `Cannot redeclare function ${functionDef.name}.`, {
           code: "function.alreadyDefined",
           node: functionDef,
-          property: "name",
-        });
-      }
-    }
-  }
-
-  /**
-   * Checks if all function parameters are unique.
-   *
-   * @param {FunctionParameter} parameter - The parameter to check.
-   * @param {ValidationAcceptor} accept - The validation acceptor to report errors.
-   * @returns {void}
-   */
-  checkThatAllFunctionParametersAreUnique(
-    parameter: FunctionParameter,
-    accept: ValidationAcceptor,
-  ): void {
-    const functionDef = parameter.$container;
-    if (!isDefFunction(functionDef)) {
-      return;
-    }
-    const parameters = functionDef.parameters;
-    for (let parameterInLoop of parameters) {
-      if (parameterInLoop === parameter) {
-        break;
-      }
-      if (parameterInLoop.name === parameter.name) {
-        accept("error", `Duplicated identifier ${parameter.name}.`, {
-          code: "parameter.alreadyDefined",
-          node: parameter,
           property: "name",
         });
       }
