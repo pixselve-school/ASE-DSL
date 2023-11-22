@@ -22,9 +22,14 @@ export function registerValidationChecks(services: MiniMechaCodeServices) {
   const validator = services.validation.MiniMechaCodeValidator;
   const checks: ValidationChecks<MiniMechaCodeAstType> = {
     DefVariable: validator.checkDefVariableIsNotAlreadyDefined,
-    DefFunction: validator.checkFunctionIsNotAlreadyDefined,
+    DefFunction: [
+      validator.checkFunctionIsNotAlreadyDefined,
+      validator.checkThatTheEntryFunctionIsNotUsingParameters,
+    ],
     FunctionParameter: validator.checkThatAllFunctionParametersAreUnique,
     Model: validator.checkThatTheProgramHasAnEntryFunction,
+    FunctionCall:
+      validator.checkThatFunctionCallIsUsingCorrectNumberOfParameters,
   };
   registry.register(checks, validator);
 }
@@ -120,6 +125,9 @@ export class MiniMechaCodeValidator {
       return;
     }
     for (let func of model.functions) {
+      if (func === functionDef) {
+        break;
+      }
       if (func.name === functionDef.name) {
         accept("error", `Cannot redeclare function ${functionDef.name}.`, {
           code: "function.alreadyDefined",
@@ -183,6 +191,57 @@ export class MiniMechaCodeValidator {
     }
   }
 
+  /**
+   * Check that the entry function is not using parameters.
+   *
+   * @param {DefFunction} functionToCheck - The function to check.
+   * @param {ValidationAcceptor} accept - The validation acceptor.
+   * @returns {void}
+   */
+  checkThatTheEntryFunctionIsNotUsingParameters(
+    functionToCheck: DefFunction,
+    accept: ValidationAcceptor,
+  ): void {
+    if (functionToCheck.name === ENTRY_FUNCTION_NAME) {
+      if (functionToCheck.parameters.length > 0) {
+        accept("error", `The entry function cannot have parameters.`, {
+          code: "function.entryParameters",
+          node: functionToCheck,
+          property: "parameters",
+        });
+      }
+    }
+  }
+
+  /**
+   * Check if a function call is using the correct number of parameters.
+   *
+   * @param {FunctionCall} functionCall - The function call object.
+   * @param {ValidationAcceptor} accept - The validation acceptor object.
+   * @return {void}
+   */
+  checkThatFunctionCallIsUsingCorrectNumberOfParameters(
+    functionCall: FunctionCall,
+    accept: ValidationAcceptor,
+  ): void {
+    const functionDef = functionCall.ref.ref;
+    if (!functionDef) {
+      return;
+    }
+
+    if (functionCall.parameters.length !== functionDef.parameters.length) {
+      accept(
+        "error",
+        `Expected ${functionDef.parameters.length} arguments, but got ${functionCall.parameters.length}.`,
+        {
+          code: "functionCall.incorrectNumberOfParameters",
+          node: functionCall,
+          property: "parameters",
+        },
+      );
+    }
+  }
+
   checkThatDefVariableIsUsingTheCorrectType(
     defVariable: DefVariable,
     accept: ValidationAcceptor,
@@ -192,19 +251,6 @@ export class MiniMechaCodeValidator {
     functionCall: FunctionCall,
     accept: ValidationAcceptor,
   ): void {}
-
-  checkThatFunctionCallIsUsingCorrectNumberOfParameters(
-    functionCall: FunctionCall,
-    accept: ValidationAcceptor,
-  ): void {
-    const model = getModel(functionCall.$container);
-    if (!model) {
-      accept("error", "Function call is not inside a model", {
-        node: functionCall,
-        property: "ref",
-      });
-    }
-  }
 
   checkThatVariableAssignmentIsUsingCorrectType(
     varAssignment: VarAssignment,
