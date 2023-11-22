@@ -119,19 +119,13 @@ export class MiniMechaCodeValidator {
     if (!model) {
       return;
     }
-    for (let statement of model.statements) {
-      if (statement === functionDef) {
-        break;
-      }
-      if (isDefFunction(statement)) {
-        const defFunction = statement as DefFunction;
-        if (defFunction.name === functionDef.name) {
-          accept("error", `Cannot redeclare function ${functionDef.name}.`, {
-            code: "function.alreadyDefined",
-            node: functionDef,
-            property: "name",
-          });
-        }
+    for (let func of model.functions) {
+      if (func.name === functionDef.name) {
+        accept("error", `Cannot redeclare function ${functionDef.name}.`, {
+          code: "function.alreadyDefined",
+          node: functionDef,
+          property: "name",
+        });
       }
     }
   }
@@ -177,18 +171,14 @@ export class MiniMechaCodeValidator {
     model: Model,
     accept: ValidationAcceptor,
   ): void {
-    const entryFunction = model.statements.find((statement) => {
-      if (isDefFunction(statement)) {
-        const defFunction = statement as DefFunction;
-        return defFunction.name === ENTRY_FUNCTION_NAME;
-      }
-      return false;
+    const entryFunction = model.functions.find((func) => {
+      return func.name === ENTRY_FUNCTION_NAME;
     });
     if (!entryFunction) {
       accept("error", `The program must have an entry function.`, {
         code: "function.entryMissing",
         node: model,
-        property: "statements",
+        property: "functions",
       });
     }
   }
@@ -211,7 +201,7 @@ export class MiniMechaCodeValidator {
     if (!model) {
       accept("error", "Function call is not inside a model", {
         node: functionCall,
-        property: "name",
+        property: "ref",
       });
     }
   }
