@@ -15,11 +15,11 @@ VarAssignment returns VarAssignment:
 ;
 
 Expression returns Expression:
-    PrimaryExpression | Plus | Minus | Multi | Div | Greater | Less | Equal | Or | And | UnitOperator | Convertion | Not
+    PrimaryExpression | Plus | Minus | Multi | Div | Greater | Less | Equal | Or | And | UnitOperator | Convertion | Not | '(' Expression ')'
 ;
 
 PrimaryExpression returns Expression:
-    NumberLitteral | RefVariable | BooleanLitteral | FunctionCall
+    NumberLitteral | RefVariable | BooleanLitteral | FunctionCall | '(' Expression ')'
 ;
 
 UnitOperator returns UnitOperator:
@@ -32,6 +32,29 @@ DefVariable returns DefVariable:
 
 FunctionParameter returns DefVariable:
     varType=Type name=ID
+;
+
+
+
+NumberLitteral returns NumberLitteral:
+    value=NUMBER
+;
+
+RefVariable returns RefVariable:
+    ref=[DefVariable:ID]
+;
+
+BooleanLitteral returns BooleanLitteral:
+    value=BOOLEAN
+;
+
+DefFunction returns DefFunction:
+    'let' returnType=Type name=ID '(' (parameters+=FunctionParameter  ("," parameters+=FunctionParameter  )*)? ')' '{' statements+=Statement* '}'
+; 
+
+
+Loop returns Loop:
+    'loop' condition=Expression '{'  statements+=Statement* '}'
 ;
 
 Minus returns Minus:
@@ -50,25 +73,6 @@ Plus returns Plus:
     left=PrimaryExpression '+' right=Expression
 ;
 
-NumberLitteral returns NumberLitteral:
-    value=NUMBER
-;
-
-RefVariable returns RefVariable:
-    ref=[DefVariable:ID]
-;
-
-BooleanLitteral returns BooleanLitteral:
-    value=BOOLEAN
-;
-
-DefFunction returns DefFunction:
-    'let' returnType=Type name=ID '(' (parameters+=FunctionParameter  ("," parameters+=FunctionParameter  )*)? ')' '{' statements+=Statement* '}'
-; 
-
-Loop returns Loop:
-    'loop' condition=Expression '{'  statements+=Statement* '}'
-;
 
 Greater returns Greater:
     left=PrimaryExpression '>' right=Expression
