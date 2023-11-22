@@ -7,7 +7,6 @@ import {
   Loop,
   type MiniMechaCodeAstType,
   Model,
-  type VarAssignment,
 } from "./generated/ast.js";
 import type { MiniMechaCodeServices } from "./mini-mecha-code-module.js";
 import getModel from "../utils/getModel.js";
@@ -241,34 +240,4 @@ export class MiniMechaCodeValidator {
       );
     }
   }
-
-  checkThatDefVariableIsUsingTheCorrectType(
-    defVariable: DefVariable,
-    accept: ValidationAcceptor,
-  ): void {}
-
-  checkThatFunctionCallIsUsingCorrectType(
-    functionCall: FunctionCall,
-    accept: ValidationAcceptor,
-  ): void {}
-
-  checkThatVariableAssignmentIsUsingCorrectType(
-    varAssignment: VarAssignment,
-    accept: ValidationAcceptor,
-  ): void {}
-
-  checkThatConversionAreUsingCorrectType(
-    varAssignment: VarAssignment,
-    accept: ValidationAcceptor,
-  ): void {}
-
-  checkThatForwardIsUsingCorrectType(
-    varAssignment: VarAssignment,
-    accept: ValidationAcceptor,
-  ): void {}
-
-  checkThatClockIsUsingCorrectType(
-    varAssignment: VarAssignment,
-    accept: ValidationAcceptor,
-  ): void {}
 }
