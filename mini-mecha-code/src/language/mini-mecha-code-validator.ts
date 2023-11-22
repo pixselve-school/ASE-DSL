@@ -1,5 +1,12 @@
-import type { ValidationChecks } from 'langium';
-import type { MiniMechaCodeAstType } from './generated/ast.js';
+import type {ValidationAcceptor, ValidationChecks} from 'langium';
+import type {
+    DefFunction,
+    DefVariable,
+    FunctionCall,
+    MiniMechaCodeAstType,
+    Model,
+    RefVariable, VarAssignment
+} from './generated/ast.js';
 import type { MiniMechaCodeServices } from './mini-mecha-code-module.js';
 
 /**
@@ -10,6 +17,8 @@ export function registerValidationChecks(services: MiniMechaCodeServices) {
     const validator = services.validation.MiniMechaCodeValidator;
     const checks: ValidationChecks<MiniMechaCodeAstType> = {
         // Person: validator.checkPersonStartsWithCapital
+        RefVariable: validator.checkRefVariableIsUsingDefinedVariable,
+        DefVariable: validator.checkDefVariableIsNotAlreadyDefined
     };
     registry.register(checks, validator);
 }
@@ -19,13 +28,64 @@ export function registerValidationChecks(services: MiniMechaCodeServices) {
  */
 export class MiniMechaCodeValidator {
 
-    // checkPersonStartsWithCapital(person: Person, accept: ValidationAcceptor): void {
-    //     if (person.name) {
-    //         const firstChar = person.name.substring(0, 1);
-    //         if (firstChar.toUpperCase() !== firstChar) {
-    //             accept('warning', 'Person name should start with a capital.', { node: person, property: 'name' });
-    //         }
-    //     }
-    // }
+    checkDefVariableIsNotAlreadyDefined(defVariable: DefVariable, accept: ValidationAcceptor): void {
+
+    }
+
+    checkRefVariableIsUsingDefinedVariable(refVariables: RefVariable, accept: ValidationAcceptor): void {
+    }
+
+    checkFunctionCallIsUsingDefinedFunction(functionCall: FunctionCall, accept: ValidationAcceptor): void {
+
+    }
+
+    checkModelHasOnlyFunctionDefinition(model: Model, accept: ValidationAcceptor): void {
+
+    }
+
+    checkFunctionAreOnlyDeclaredInModel(functionDef: DefFunction, accept: ValidationAcceptor): void {
+
+    }
+
+    checkFunctionIsNotAlreadyDefined(functionDef: DefFunction, accept: ValidationAcceptor): void {
+
+    }
+
+    checkThatAllFunctionParametersAreUnique(functionDef: DefFunction, accept: ValidationAcceptor): void {
+
+    }
+
+    checkThatDefVariableIsUsingTheCorrectType(defVariable: DefVariable, accept: ValidationAcceptor): void {
+
+    }
+
+    checkThatFunctionCallIsUsingCorrectType(functionCall: FunctionCall, accept: ValidationAcceptor): void {
+
+    }
+
+    checkThatFunctionCallIsUsingCorrectNumberOfParameters(functionCall: FunctionCall, accept: ValidationAcceptor): void {
+
+    }
+
+    checkThatVariableAssignmentIsUsingCorrectType(varAssignment: VarAssignment, accept: ValidationAcceptor): void {
+
+    }
+
+
+    checkThatConversionAreUsingCorrectType(varAssignment: VarAssignment, accept: ValidationAcceptor): void {
+
+    }
+
+    checkThatForwardIsUsingCorrectType(varAssignment: VarAssignment, accept: ValidationAcceptor): void {
+
+    }
+
+    checkThatClockIsUsingCorrectType(varAssignment: VarAssignment, accept: ValidationAcceptor): void {
+
+    }
+
+
+
+
 
 }
