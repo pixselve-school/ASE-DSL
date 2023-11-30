@@ -1,32 +1,66 @@
-import type { DefaultSharedModuleContext, LangiumServices, LangiumSharedServices, Module, PartialLangiumServices } from 'langium';
-import { createDefaultModule, createDefaultSharedModule, inject } from 'langium';
-import { MiniMechaCodeGeneratedModule, MiniMechaCodeGeneratedSharedModule } from './generated/module.js';
-import { MiniMechaCodeValidator, registerValidationChecks } from './mini-mecha-code-validator.js';
+import type {
+  DeepPartial,
+  DefaultSharedModuleContext,
+  LangiumServices,
+  LangiumSharedServices,
+  Module,
+  PartialLangiumServices,
+} from "langium";
+import {
+  createDefaultModule,
+  createDefaultSharedModule,
+  inject,
+} from "langium";
+import {
+  MiniMechaCodeGeneratedModule,
+  MiniMechaCodeGeneratedSharedModule,
+} from "./generated/module.js";
+import {
+  MiniMechaCodeValidator,
+  registerValidationChecks,
+} from "./mini-mecha-code-validator.js";
+import { MiniMechaCodeWorkspaceManager } from "./mini-mecha-code-workspace-manager.js";
 
 /**
  * Declaration of custom services - add your own service classes here.
  */
 export type MiniMechaCodeAddedServices = {
-    validation: {
-        MiniMechaCodeValidator: MiniMechaCodeValidator
-    }
-}
+  validation: {
+    MiniMechaCodeValidator: MiniMechaCodeValidator;
+  };
+};
 
 /**
  * Union of Langium default services and your custom services - use this as constructor parameter
  * of custom service classes.
  */
-export type MiniMechaCodeServices = LangiumServices & MiniMechaCodeAddedServices
+export type MiniMechaCodeServices = LangiumServices &
+  MiniMechaCodeAddedServices;
 
 /**
  * Dependency injection module that overrides Langium default services and contributes the
  * declared custom services. The Langium defaults can be partially specified to override only
  * selected services, while the custom services must be fully specified.
  */
-export const MiniMechaCodeModule: Module<MiniMechaCodeServices, PartialLangiumServices & MiniMechaCodeAddedServices> = {
-    validation: {
-        MiniMechaCodeValidator: () => new MiniMechaCodeValidator()
-    }
+export const MiniMechaCodeModule: Module<
+  MiniMechaCodeServices,
+  PartialLangiumServices & MiniMechaCodeAddedServices
+> = {
+  validation: {
+    MiniMechaCodeValidator: () => new MiniMechaCodeValidator(),
+  },
+};
+
+// Add this to the `hello-world-module.ts` included in the yeoman generated project
+export type MiniMechaCodeSharedServices = LangiumSharedServices;
+
+export const MiniMechaCodeSharedModule: Module<
+  MiniMechaCodeSharedServices,
+  DeepPartial<MiniMechaCodeSharedServices>
+> = {
+  workspace: {
+    WorkspaceManager: (services) => new MiniMechaCodeWorkspaceManager(services),
+  },
 };
 
 /**
@@ -44,20 +78,23 @@ export const MiniMechaCodeModule: Module<MiniMechaCodeServices, PartialLangiumSe
  * @param context Optional module context with the LSP connection
  * @returns An object wrapping the shared services and the language-specific services
  */
-export function createMiniMechaCodeServices(context: DefaultSharedModuleContext): {
-    shared: LangiumSharedServices,
-    MiniMechaCode: MiniMechaCodeServices
+export function createMiniMechaCodeServices(
+  context: DefaultSharedModuleContext,
+): {
+  shared: LangiumSharedServices;
+  MiniMechaCode: MiniMechaCodeServices;
 } {
-    const shared = inject(
-        createDefaultSharedModule(context),
-        MiniMechaCodeGeneratedSharedModule
-    );
-    const MiniMechaCode = inject(
-        createDefaultModule({ shared }),
-        MiniMechaCodeGeneratedModule,
-        MiniMechaCodeModule
-    );
-    shared.ServiceRegistry.register(MiniMechaCode);
-    registerValidationChecks(MiniMechaCode);
-    return { shared, MiniMechaCode };
+  const shared = inject(
+    createDefaultSharedModule(context),
+    MiniMechaCodeGeneratedSharedModule,
+    MiniMechaCodeSharedModule,
+  );
+  const MiniMechaCode = inject(
+    createDefaultModule({ shared }),
+    MiniMechaCodeGeneratedModule,
+    MiniMechaCodeModule,
+  );
+  shared.ServiceRegistry.register(MiniMechaCode);
+  registerValidationChecks(MiniMechaCode);
+  return { shared, MiniMechaCode };
 }

@@ -11,6 +11,7 @@ import type { MiniMechaCodeServices } from "./mini-mecha-code-module.js";
 import getModel from "../utils/getModel.js";
 import { isDefFunction, isDefVariable, isLoop } from "./generated/ast.js";
 import { ENTRY_FUNCTION_NAME } from "../utils/constants.js";
+import { builtInMiniMechaCodeFunctions } from "./built-in.js";
 
 /**
  * Register custom validation checks.
@@ -25,8 +26,8 @@ export function registerValidationChecks(services: MiniMechaCodeServices) {
       validator.checkThatTheEntryFunctionIsNotUsingParameters,
     ],
     Model: [
-      (model)=>console.log(model), 
-      validator.checkThatTheProgramHasAnEntryFunction
+      (model) => console.log(model),
+      validator.checkThatTheProgramHasAnEntryFunction,
     ],
     FunctionCall:
       validator.checkThatFunctionCallIsUsingCorrectNumberOfParameters,
@@ -76,7 +77,9 @@ export class MiniMechaCodeValidator {
     if (isDefFunction(parent)) {
       const functionDef = parent as DefFunction;
       if (
-        functionDef.parameters.find((param) => param !== defVariable && param.name === defVariable.name)
+        functionDef.parameters.find(
+          (param) => param !== defVariable && param.name === defVariable.name,
+        )
       ) {
         accept("error", `Duplicated identifier ${defVariable.name}.`, {
           code: "variable.alreadyDefined",
@@ -128,7 +131,10 @@ export class MiniMechaCodeValidator {
       if (func === functionDef) {
         break;
       }
-      if (func.name === functionDef.name) {
+      if (
+        func.name === functionDef.name ||
+        builtInMiniMechaCodeFunctions.includes(functionDef.name)
+      ) {
         accept("error", `Cannot redeclare function ${functionDef.name}.`, {
           code: "function.alreadyDefined",
           node: functionDef,
