@@ -68,6 +68,7 @@ const execute = async () => {
 };
 
 const setupSimulator = (scene) => {
+  console.log("setting up simulator...");
   const wideSide = max(scene.size.x, scene.size.y);
   let factor = 1000 / wideSide;
 

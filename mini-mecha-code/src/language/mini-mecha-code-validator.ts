@@ -25,10 +25,7 @@ export function registerValidationChecks(services: MiniMechaCodeServices) {
       validator.checkFunctionIsNotAlreadyDefined,
       validator.checkThatTheEntryFunctionIsNotUsingParameters,
     ],
-    Model: [
-      (model) => console.log(model),
-      validator.checkThatTheProgramHasAnEntryFunction,
-    ],
+    Model: [validator.checkThatTheProgramHasAnEntryFunction],
     FunctionCall:
       validator.checkThatFunctionCallIsUsingCorrectNumberOfParameters,
   };
