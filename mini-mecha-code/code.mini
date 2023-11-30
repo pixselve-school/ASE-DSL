@@ -1,13 +1,7 @@
 let void entry () {
-    var number count = 100
-    Forward count
-    hello(count)
-    Clock count
+    var number count = 0
+    loop count < 10 {
+        count = count + 1
+        Forward 1
+    }
 }
-
-let void hello(number count) {
-    Clock count
-    count = 300 + count
-    Clock count
-}
-

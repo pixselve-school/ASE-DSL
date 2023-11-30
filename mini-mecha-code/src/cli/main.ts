@@ -6,10 +6,10 @@ import { createMiniMechaCodeServices } from "../language/mini-mecha-code-module.
 import { extractAstNode } from "./cli-util.js";
 import { generateJavaScript } from "./generator.js";
 import { NodeFileSystem } from "langium/node";
-import { generateMiniMechaCodeCmds } from "../generator/generator.js";
 import * as url from "node:url";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
+import { interpretMiniMechaCode } from "../interpretor/interpretor.js";
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 export const generateAction = async (
@@ -33,7 +33,7 @@ export const generateCmds = async (fileName: string): Promise<void> => {
   const services = createMiniMechaCodeServices(NodeFileSystem).MiniMechaCode;
   const model = await extractAstNode<Model>(fileName, services);
   // directly output these commands to the console
-  console.log(JSON.stringify(generateMiniMechaCodeCmds(model)));
+  console.log(interpretMiniMechaCode(model).robot);
 };
 
 export type GenerateOptions = {
