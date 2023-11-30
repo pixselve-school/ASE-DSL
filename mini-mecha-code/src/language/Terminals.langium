@@ -1,4 +1,4 @@
-terminal BOOLEAN returns boolean:'true' | 'false' ;
+terminal BOOLEAN returns boolean: 'true' | 'false' ;
 terminal ID: /[_a-zA-Z][\w_]*/;
 terminal NUMBER returns number: /[0-9]+(\.[0-9]*)?/;
 hidden terminal ML_COMMENT: /\/\*[\s\S]*?\*\//;
