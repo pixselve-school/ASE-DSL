@@ -5,7 +5,7 @@ import type {
 import * as vscode from "vscode";
 import * as path from "node:path";
 import { LanguageClient, TransportKind } from "vscode-languageclient/node.js";
-import { builtInMiniMechaCode } from "../language/built-in.js";
+import {builtInMiniMechaCode} from "../language/built-in.js";
 
 export class DslLibraryFileSystemProvider implements vscode.FileSystemProvider {
   static register(context: vscode.ExtensionContext) {
@@ -71,6 +71,7 @@ export class DslLibraryFileSystemProvider implements vscode.FileSystemProvider {
     throw vscode.FileSystemError.NoPermissions();
   }
 }
+
 
 let client: LanguageClient;
 

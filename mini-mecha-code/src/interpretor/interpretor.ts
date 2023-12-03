@@ -24,13 +24,13 @@ import {
   Model,
   Statement,
 } from "../language/generated/ast.js";
-import { BaseScene, Scene } from "../web/simulator/scene.js";
 import { ENTRY_FUNCTION_NAME, MAX_ITERATIONS } from "../utils/constants.js";
 import {
   GET_DISTANCE,
   GET_TIMESTAMP,
   SET_SPEED,
 } from "../language/built-in.js";
+import {BaseScene, Scene} from "../simulator/scene.js";
 
 export function interpretMiniMechaCode(model: Model): Scene {
   const scene = new BaseScene();

@@ -50,7 +50,7 @@ BooleanLitteral returns BooleanLitteral:
 
 DefFunction returns DefFunction:
     'let' returnType=Type name=ID '(' (parameters+=FunctionParameter  ("," parameters+=FunctionParameter  )*)? ')' '{' statements+=Statement* '}'
-; 
+;
 
 
 Loop returns Loop:
