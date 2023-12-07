@@ -21,36 +21,17 @@ import {
   isRotate,
   isVarAssignment,
   Loop,
-  Model,
   Statement,
 } from "../language/generated/ast.js";
-import { ENTRY_FUNCTION_NAME, MAX_ITERATIONS } from "../utils/constants.js";
+import { MAX_ITERATIONS } from "../utils/constants.js";
 import {
   GET_DISTANCE,
   GET_TIMESTAMP,
   SET_SPEED,
 } from "../language/built-in.js";
-import {BaseScene, Scene} from "../simulator/scene.js";
+import { Scene } from "../simulator/scene.js";
 
-export function interpretMiniMechaCode(model: Model): Scene {
-  const scene = new BaseScene();
-
-  // find the entry function
-  const entryFunction = model.functions.find((func) => {
-    return func.name === ENTRY_FUNCTION_NAME;
-  });
-
-  // if there is no entry function, throw an error
-  if (!entryFunction) {
-    throw new Error("No entry function found.");
-  }
-
-  evaluateEntryFunction(entryFunction, scene);
-
-  return scene;
-}
-
-function evaluateEntryFunction(functionDef: DefFunction, scene: Scene) {
+export function evaluateEntryFunction(functionDef: DefFunction, scene: Scene) {
   return evaluateFunction(functionDef, new Map(), scene);
 }
 
@@ -59,9 +40,8 @@ function evaluateEntryFunction(functionDef: DefFunction, scene: Scene) {
  *
  * @param {DefFunction} functionDef - The function definition to evaluate.
  * @param {Map<string, number>} env - The environment containing the variable value bindings (will be modified).
- * @return {Object} - An object with two properties: cmds and return.
- *                   The cmds property is an array of objects representing the evaluated statements.
- *                   The return property is the return value of the function, which is currently undefined.
+ * @param {Scene} scene - The scene in which the function is evaluated.
+ * @return {number} - The result of the function evaluation.
  */
 function evaluateFunction(
   functionDef: DefFunction,
@@ -239,6 +219,7 @@ function evaluateExpression(
 }
 
 function handleGetDistance(scene: Scene): number {
+  //return scene.robot.getForwardDist(); //TODO
   return 0;
 }
 

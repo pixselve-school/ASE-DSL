@@ -5,6 +5,8 @@ import {
 } from "./generated/ast.js";
 import type { MiniMechaCodeServices } from "./mini-mecha-code-module.js";
 import {BaseScene, Scene} from "../simulator/scene.js";
+import {evaluateEntryFunction} from "../interpretor/interpretor.js";
+import {ENTRY_FUNCTION_NAME} from "../utils/constants.js";
 
 /**
  * Register custom validation checks.
@@ -21,7 +23,7 @@ export function weaveAcceptMethods(services: MiniMechaCodeServices): Scene {
   }
 
   const checks: ValidationChecks<MiniMechaCodeAstType> = {
-    Model: [sceneWrapper(validator.test)],
+    Model: [sceneWrapper(validator.visitModel)],
   };
 
   registry.register(checks, validator);
@@ -32,14 +34,22 @@ export function weaveAcceptMethods(services: MiniMechaCodeServices): Scene {
  * Implementation of custom validations.
  */
 export class MiniMechaCodeInterpretor {
-  test(
-      defVariable: Model,
+  visitModel(
+      model: Model,
       accept: ValidationAcceptor,
       scene: Scene
   ) {
-    console.log("test")
-    scene.robot.move(200);
-    console.log(scene)
 
+    // find the entry function
+    const entryFunction = model.functions.find((func) => {
+      return func.name === ENTRY_FUNCTION_NAME;
+    });
+
+    // if there is no entry function, throw an error
+    if (!entryFunction) {
+      throw new Error("No entry function found.");
+    }
+
+    evaluateEntryFunction(entryFunction, scene);
   }
 }
