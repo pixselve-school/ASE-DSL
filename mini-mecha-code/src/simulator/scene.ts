@@ -7,6 +7,8 @@ export interface Scene{
     robot: Entities.Robot;
     time:number;
     timestamps:Array<Entities.Timestamp>;
+
+    reset():void;
 }
 
 export class BaseScene{
@@ -23,6 +25,17 @@ export class BaseScene{
         this.entities.push(new Entities.Wall(Vector.null(), this.size.projY()));
         this.entities.push(new Entities.Wall(this.size,     this.size.projY()));
         this.entities.push(new Entities.Wall(this.size,     this.size.projX()));
+        this.timestamps.push(new Entities.Timestamp(0, this.robot));
+    }
+
+    reset(){
+        this.robot = new Entities.Robot(this.size.scale(0.5), new Vector(250,250), 0, 30, this)
+        this.entities = [];
+        this.entities.push(new Entities.Wall(Vector.null(), this.size.projX()));
+        this.entities.push(new Entities.Wall(Vector.null(), this.size.projY()));
+        this.entities.push(new Entities.Wall(this.size,     this.size.projY()));
+        this.entities.push(new Entities.Wall(this.size,     this.size.projX()));
+        this.timestamps = [];
         this.timestamps.push(new Entities.Timestamp(0, this.robot));
     }
 }

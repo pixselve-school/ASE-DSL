@@ -50,6 +50,10 @@ export class MiniMechaCodeInterpretor {
       throw new Error("No entry function found.");
     }
 
+    scene.reset();
+
+
     evaluateEntryFunction(entryFunction, scene);
+    console.log(scene.timestamps)
   }
 }
