@@ -20,6 +20,8 @@ import {
   registerValidationChecks,
 } from "./mini-mecha-code-validator.js";
 import { MiniMechaCodeWorkspaceManager } from "./mini-mecha-code-workspace-manager.js";
+import {MiniMechaCodeInterpretor, weaveAcceptMethods} from "./mini-mecha-code-interpretor.js";
+import {Scene} from "../simulator/scene.js";
 
 /**
  * Declaration of custom services - add your own service classes here.
@@ -27,6 +29,9 @@ import { MiniMechaCodeWorkspaceManager } from "./mini-mecha-code-workspace-manag
 export type MiniMechaCodeAddedServices = {
   validation: {
     MiniMechaCodeValidator: MiniMechaCodeValidator;
+  };
+  interpretor: {
+    MiniMechaCodeInterpretor: MiniMechaCodeInterpretor;
   };
 };
 
@@ -49,6 +54,10 @@ export const MiniMechaCodeModule: Module<
   validation: {
     MiniMechaCodeValidator: () => new MiniMechaCodeValidator(),
   },
+  interpretor: {
+    MiniMechaCodeInterpretor: () => new MiniMechaCodeInterpretor(),
+  }
+
 };
 
 // Add this to the `hello-world-module.ts` included in the yeoman generated project
@@ -83,6 +92,7 @@ export function createMiniMechaCodeServices(
 ): {
   shared: LangiumSharedServices;
   MiniMechaCode: MiniMechaCodeServices;
+  scene: Scene;
 } {
   const shared = inject(
     createDefaultSharedModule(context),
@@ -96,5 +106,8 @@ export function createMiniMechaCodeServices(
   );
   shared.ServiceRegistry.register(MiniMechaCode);
   registerValidationChecks(MiniMechaCode);
-  return { shared, MiniMechaCode };
+
+  const scene = weaveAcceptMethods(MiniMechaCode);
+
+  return { shared, MiniMechaCode, scene };
 }

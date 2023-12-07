@@ -89,6 +89,7 @@ interface DefFunction extends Statement {
 	returnType: Type
 	statements: Statement[]
 	parameters: DefVariable[]
+	returnValue?: Expression
 }
 
 interface Loop extends Statement {
