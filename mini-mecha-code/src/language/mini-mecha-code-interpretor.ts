@@ -38,6 +38,8 @@ export class MiniMechaCodeInterpretor {
       scene: Scene
   ) {
     console.log("test")
+    scene.robot.move(200);
+    console.log(scene)
 
   }
 }
