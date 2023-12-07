@@ -2,6 +2,7 @@ import { addMonacoStyles, defineUserServices, MonacoEditorLanguageClientWrapper 
 import monarchSyntax from "../syntaxes/mini-mecha-code.monarch.js";
 import { configureWorker } from './setup.js';
 import {NotificationType} from "vscode-languageserver";
+import { parse } from 'flatted';
 
 addMonacoStyles('monaco-editor-styles');
 
@@ -50,8 +51,10 @@ export const executeClassic = async (htmlElement) => {
 
 // listen for document change notifications
     client.onNotification('browser/DocumentChange', onDocumentChange);
-    function onDocumentChange(resp) {
-        console.log(resp)
+    function onDocumentChange(message) {
+        const content = parse(message.content);
+        
+        console.log(content)
     }
 };
 

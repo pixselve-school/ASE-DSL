@@ -22,13 +22,17 @@ export class Robot implements Entities {
     size: Vector,
     angle: number,
     speed: number,
-    scene: Scene,
+    scene: Scene
   ) {
     this.pos = pos;
     this.size = size;
     this.rad = (angle * Math.PI) / 180;
     this.speed = speed;
     this.scene = scene;
+  }
+  
+  getForwardDist(): number {
+    return 100;
   }
 
   intersect(ray: Ray): Vector[] {
@@ -45,7 +49,7 @@ export class Robot implements Entities {
 
   side(dist: number): void {
     this.pos = this.pos.plus(
-      Vector.fromAngle(this.rad + Math.PI / 2, dist * this.speed),
+      Vector.fromAngle(this.rad + Math.PI / 2, dist * this.speed)
     );
   }
 
@@ -63,7 +67,7 @@ export class Timestamp extends Robot {
       robot.size.scale(1),
       robot.rad,
       robot.speed,
-      robot.scene,
+      robot.scene
     );
     this.rad = robot.rad;
     this.time = time;
@@ -87,11 +91,11 @@ export class Block implements Entities {
     pois[1] = getPOI(this.pos, this.pos.plus(this.size.projY()));
     pois[2] = getPOI(
       this.pos.plus(this.size.projX()),
-      this.pos.plus(this.size),
+      this.pos.plus(this.size)
     );
     pois[3] = getPOI(
       this.pos.plus(this.size.projY()),
-      this.pos.plus(this.size),
+      this.pos.plus(this.size)
     );
 
     return pois.filter((x) => x !== undefined) as Vector[];
