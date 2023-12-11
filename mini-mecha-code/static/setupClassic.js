@@ -10,7 +10,8 @@ const code = `let void entry () {
     var number count = 0
     loop count < 5
     {	
-        setSpeed(500 * (count + 1))
+        Forward 100
+        Clock 90
         count = count + 1
     }
 }
@@ -52,10 +53,51 @@ export const executeClassic = async (htmlElement) => {
 // listen for document change notifications
     client.onNotification('browser/DocumentChange', onDocumentChange);
     function onDocumentChange(message) {
-        const content = parse(message.content);
-        
-        console.log(content)
+        window.execute = () => {
+            const content = parse(message.content);
+            console.log(content)
+            setupSimulator(content);
+        }
     }
 };
 
+window.execute = () => {
+    console.log("No code to execute")
+}
 
+
+
+const setupSimulator = (scene) => {
+    const wideSide = max(scene.size.x, scene.size.y);
+    let factor = 1000 / wideSide;
+
+    window.scene = scene;
+
+    scene.entities.forEach((entity) => {
+        if (entity.type === "Wall") {
+            window.entities.push(new Wall(
+                (entity.pos.x)*factor,
+                (entity.pos.y)*factor,
+                (entity.size.x)*factor,
+                (entity.size.y)*factor
+            ));
+        }
+        if (entity.type === "Block") {
+            window.entities.push(new Wall(
+                (entity.pos.x)*factor,
+                (entity.pos.y)*factor,
+                (entity.size.x)*factor,
+                (entity.size.y)*factor
+            ));
+        }
+    });
+
+    window.p5robot = new Robot(
+        factor,
+        scene.robot.pos.x,
+        scene.robot.pos.y,
+        scene.robot.size.x * factor,
+        scene.robot.size.y * factor,
+        scene.robot.rad
+    );
+}

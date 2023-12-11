@@ -49,11 +49,7 @@ export class MiniMechaCodeInterpretor {
     if (!entryFunction) {
       throw new Error("No entry function found.");
     }
-
     scene.reset();
-
-
     evaluateEntryFunction(entryFunction, scene);
-    console.log(scene.timestamps)
   }
 }

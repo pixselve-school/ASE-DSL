@@ -40,27 +40,24 @@ export class Robot implements Entities {
   }
 
   turn(angle: number): void {
-    const initialTimestamp = new Timestamp(Date.now(), this);
     this.rad += (angle * Math.PI) / 180;
-    const finalTimestamp = new Timestamp(Date.now(), this);
-    this.scene.timestamps.push(initialTimestamp, finalTimestamp);
+    const finalTimestamp = new Timestamp(this.scene.time, this);
+    this.scene.timestamps.push(finalTimestamp);
   }
   move(dist: number): void {
-    const initialTimestamp = new Timestamp(this.scene.time, this);
     const direction = Vector.fromAngle(this.rad, dist * this.speed);
     this.pos = this.pos.plus(direction);
-    this.scene.time += dist / this.speed;
+    this.scene.time += dist * this.speed;
     const finalTimestamp = new Timestamp(this.scene.time, this);
-    this.scene.timestamps.push(initialTimestamp, finalTimestamp);
+    this.scene.timestamps.push(finalTimestamp);
   }
 
   side(dist: number): void {
-    const initialTimestamp = new Timestamp(this.scene.time, this);
     const direction = Vector.fromAngle(this.rad + Math.PI / 2, dist * this.speed);
     this.pos = this.pos.plus(direction);
-    this.scene.time += dist / this.speed;
+    this.scene.time += dist * this.speed;
     const finalTimestamp = new Timestamp(this.scene.time, this);
-    this.scene.timestamps.push(initialTimestamp, finalTimestamp);
+    this.scene.timestamps.push(finalTimestamp);
   }
 
   getRay() {

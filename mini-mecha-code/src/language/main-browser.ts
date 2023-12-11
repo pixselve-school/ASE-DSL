@@ -37,7 +37,6 @@ shared.workspace.DocumentBuilder.onBuildPhase(
   DocumentState.Validated,
   async (documents) => {
     // perform this for every validated document in this build phase batch
-    console.log("validated", scene);
     for (const document of documents) {
       // send the notification for this validated document,
       // with the serialized AST + generated commands as the content

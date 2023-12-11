@@ -97,7 +97,6 @@ function evaluateStatement(
 
   if (isForward(statement)) {
     const value = evaluateExpression(statement.distance!, env, scene);
-    console.log("forward", value);
     scene.robot.move(value);
     return;
   }
@@ -106,10 +105,8 @@ function evaluateStatement(
 }
 
 function evaluateLoop(statement: Loop, env: Map<string, number>, scene: Scene) {
-  console.log("evaluateLoop");
   let i = 0;
   while (i < MAX_ITERATIONS) {
-    console.log("evaluateLoop", i);
     i++;
     const condition = evaluateExpression(statement.condition, env, scene);
     if (!condition) {
@@ -219,8 +216,7 @@ function evaluateExpression(
 }
 
 function handleGetDistance(scene: Scene): number {
-  //return scene.robot.getForwardDist(); //TODO
-  return 0;
+  return scene.robot.getForwardDist();
 }
 
 function handleGetTimestamp(scene: Scene): number {

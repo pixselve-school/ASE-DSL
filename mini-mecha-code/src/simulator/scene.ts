@@ -37,6 +37,7 @@ export class BaseScene{
         this.entities.push(new Entities.Wall(this.size,     this.size.projX()));
         this.timestamps = [];
         this.timestamps.push(new Entities.Timestamp(0, this.robot));
+        this.time = 0;
     }
 }
 
