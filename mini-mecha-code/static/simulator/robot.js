@@ -1,14 +1,36 @@
 class Robot {
+
+    _x = 0;
+    _y = 0;
+
     constructor(factor, _x = 0, _y = 0, _width = 50, _height = 75, _angle = 0) {
         this.factor = factor;
         // x and y represent the center of the robot
-        this.x = _x;
-        this.y = _y;
+        this._x = _x;
+        this._y = _y;
         this.angle = _angle;
         this.width = _width;
         this.height = _height;
     }
-  
+
+    get x() {
+        return this._x;
+    }
+
+    set x(value) {
+        if (isNaN(value)) return
+        this._x = value;
+    }
+
+    get y() {
+        return this._y;
+    }
+
+    set y(value) {
+        if (isNaN(value)) return
+        this._y = value;
+    }
+
     show() {
         push();
         const canvasX = this.x * this.factor;
@@ -23,9 +45,9 @@ class Robot {
         triangle(-0.5*h, -(this.height/6), -0.5*h, this.height/6, 0.5*h, 0);
         pop();
 
-        
+
     }
-  
+
     turn(angle){
         this.angle += angle;
         if(this.angle<0){

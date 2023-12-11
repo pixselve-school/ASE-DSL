@@ -10,7 +10,7 @@ const code = `let void entry () {
     var number count = 0
     loop count < 5
     {	
-        Forward 100
+        Forward 5
         Clock 90
         count = count + 1
     }

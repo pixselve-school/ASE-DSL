@@ -14,8 +14,8 @@ function draw() {
   stroke(255);
   strokeWeight(1);
 
-  for (var e = 0; e < window.entities.length; e++) {
-    window.entities[e].show();
+  for (const entity of window.entities) {
+    entity.show();
   }
 
   if(window.scene !== null && window.scene.timestamps.length > lastTimestamp + 1){

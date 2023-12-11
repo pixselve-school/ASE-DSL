@@ -1,6 +1,6 @@
 import {
   DefFunction,
-  Expression,
+  Expression, FunctionCall,
   isAnd,
   isBooleanLitteral,
   isDefVariable,
@@ -62,6 +62,29 @@ function evaluateFunction(
   return 0;
 }
 
+function evaluateFunctionCall(
+  statement: FunctionCall,
+  env: Map<string, number>,
+  scene: Scene,
+) {
+  const functionDef = statement.ref.ref;
+  if (!functionDef) {
+    throw new Error("Function not found.");
+  }
+
+  const args = statement.parameters.map((param) => {
+    return evaluateExpression(param, env, scene);
+  });
+
+  console.log("args", args);
+
+  const newEnv = new Map(env);
+  for (let i = 0; i < functionDef.parameters.length; i++) {
+    newEnv.set(functionDef.parameters[i].name, args[i]);
+  }
+  return evaluateFunction(functionDef, newEnv, scene);
+}
+
 function evaluateStatement(
   statement: Statement,
   env: Map<string, number>,
@@ -74,7 +97,7 @@ function evaluateStatement(
   }
 
   if (isFunctionCall(statement)) {
-    evaluateFunction(statement.ref.ref!, env, scene);
+    evaluateFunctionCall(statement, env, scene);
     return;
   }
 
@@ -195,21 +218,7 @@ function evaluateExpression(
   }
 
   if (isFunctionCall(expression)) {
-    const functionDef = expression.ref.ref;
-    if (!functionDef) {
-      throw new Error("Function not found.");
-    }
-
-    const args = expression.parameters.map((param) => {
-      return evaluateExpression(param, env, scene);
-    });
-
-    const newEnv = new Map(env);
-    for (let i = 0; i < functionDef.parameters.length; i++) {
-      newEnv.set(functionDef.parameters[i].name, args[i]);
-    }
-
-    return evaluateFunction(functionDef, newEnv, scene);
+    return evaluateFunctionCall(expression, env, scene)
   }
 
   throw new Error("Not implemented");
@@ -224,5 +233,6 @@ function handleGetTimestamp(scene: Scene): number {
 }
 
 function handleSetSpeed(scene: Scene, speed: number): number {
+  console.log("set speed", speed)
   return (scene.robot.speed = speed);
 }
