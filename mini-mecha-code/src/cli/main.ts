@@ -4,7 +4,7 @@ import { Command } from "commander";
 import { MiniMechaCodeLanguageMetaData } from "../language/generated/module.js";
 import { createMiniMechaCodeServices } from "../language/mini-mecha-code-module.js";
 import { extractAstNode } from "./cli-util.js";
-import { generateJavaScript } from "./generator.js";
+import { generateArduinoCode } from "./generator.js";
 import { NodeFileSystem } from "langium/node";
 import * as url from "node:url";
 import * as fs from "node:fs/promises";
@@ -20,13 +20,13 @@ export const generateAction = async (
 ): Promise<void> => {
   const services = createMiniMechaCodeServices(NodeFileSystem).MiniMechaCode;
   const model = await extractAstNode<Model>(fileName, services);
-  const generatedFilePath = generateJavaScript(
+  const generatedFilePath = generateArduinoCode(
     model,
     fileName,
     opts.destination,
   );
   console.log(
-    chalk.green(`JavaScript code generated successfully: ${generatedFilePath}`),
+    chalk.green(`Arduino code generated successfully: ${generatedFilePath}`),
   );
 };
 

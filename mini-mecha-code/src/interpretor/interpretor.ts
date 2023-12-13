@@ -1,8 +1,10 @@
 import {
   DefFunction,
-  Expression, FunctionCall,
+  Expression,
+  FunctionCall,
   isAnd,
   isBooleanLitteral,
+  isConvertion,
   isDefVariable,
   isDiv,
   isEqual,
@@ -19,6 +21,7 @@ import {
   isPlus,
   isRefVariable,
   isRotate,
+  isUnitOperator,
   isVarAssignment,
   Loop,
   Statement,
@@ -58,15 +61,26 @@ function evaluateFunction(
   for (const stmt of functionDef.statements) {
     evaluateStatement(stmt, env, scene);
   }
-
+  // handle return value
+  if (functionDef.returnValue) {
+    return evaluateExpression(functionDef.returnValue, env, scene);
+  }
   return 0;
 }
 
+/**
+ * Evaluates a function call statement.
+ *
+ * @param {FunctionCall} statement - The function call statement to evaluate.
+ * @param {Map<string, number>} env - The environment containing the variable value bindings.
+ * @param {Scene} scene - The scene in which the function is evaluated.
+ * @return {number} - The result of the function call evaluation.
+ */
 function evaluateFunctionCall(
   statement: FunctionCall,
   env: Map<string, number>,
   scene: Scene,
-) {
+): number {
   const functionDef = statement.ref.ref;
   if (!functionDef) {
     throw new Error("Function not found.");
@@ -76,8 +90,6 @@ function evaluateFunctionCall(
     return evaluateExpression(param, env, scene);
   });
 
-  console.log("args", args);
-
   const newEnv = new Map(env);
   for (let i = 0; i < functionDef.parameters.length; i++) {
     newEnv.set(functionDef.parameters[i].name, args[i]);
@@ -85,6 +97,13 @@ function evaluateFunctionCall(
   return evaluateFunction(functionDef, newEnv, scene);
 }
 
+/**
+ * Evaluates a statement.
+ *
+ * @param {Statement} statement - The statement to evaluate.
+ * @param {Map<string, number>} env - The environment containing the variable value bindings.
+ * @param {Scene} scene - The scene in which the statement is evaluated.
+ */
 function evaluateStatement(
   statement: Statement,
   env: Map<string, number>,
@@ -127,6 +146,13 @@ function evaluateStatement(
   throw new Error("Not implemented");
 }
 
+/**
+ * Evaluates a loop statement.
+ *
+ * @param {Loop} statement - The loop statement to evaluate.
+ * @param {Map<string, number>} env - The environment containing the variable value bindings.
+ * @param {Scene} scene - The scene in which the loop is evaluated.
+ */
 function evaluateLoop(statement: Loop, env: Map<string, number>, scene: Scene) {
   let i = 0;
   while (i < MAX_ITERATIONS) {
@@ -144,6 +170,14 @@ function evaluateLoop(statement: Loop, env: Map<string, number>, scene: Scene) {
   }
 }
 
+/**
+ * Evaluates an expression.
+ *
+ * @param {Expression} expression - The expression to evaluate.
+ * @param {Map<string, number>} env - The environment containing the variable value bindings.
+ * @param {Scene} scene - The scene in which the expression is evaluated.
+ * @return {number} - The result of the expression evaluation.
+ */
 function evaluateExpression(
   expression: Expression,
   env: Map<string, number>,
@@ -218,21 +252,50 @@ function evaluateExpression(
   }
 
   if (isFunctionCall(expression)) {
-    return evaluateFunctionCall(expression, env, scene)
+    return evaluateFunctionCall(expression, env, scene);
+  }
+
+  if (isConvertion(expression) || isUnitOperator(expression)) {
+    const value = evaluateExpression(expression.left, env, scene);
+    switch (expression.unit) {
+      case "m":
+        return value * 1000;
+      case "cm":
+        return value * 100;
+      case "mm":
+        return value; // default unit
+      default:
+        throw new Error("Not implemented");
+    }
   }
 
   throw new Error("Not implemented");
 }
 
+/**
+ * Handles the built-in function `getDistance`.
+ * @param {Scene} scene - The scene in which the function is evaluated.
+ * @return {number} - The distance between the robot and the closest obstacle.
+ */
 function handleGetDistance(scene: Scene): number {
   return scene.robot.getForwardDist();
 }
 
+/**
+ * Handles the built-in function `getTimestamp`.
+ * @param {Scene} scene - The scene in which the function is evaluated.
+ * @return {number} - The current timestamp.
+ */
 function handleGetTimestamp(scene: Scene): number {
   return scene.time;
 }
 
+/**
+ * Handles the built-in function `setSpeed`.
+ * @param {Scene} scene - The scene in which the function is evaluated.
+ * @param {number} speed - The speed to set.
+ * @return {number} - The speed that has been set.
+ */
 function handleSetSpeed(scene: Scene, speed: number): number {
-  console.log("set speed", speed)
   return (scene.robot.speed = speed);
 }
