@@ -19,9 +19,9 @@
     />
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="flex h-full flex-col m-0 p-0 overflow-x-hidden">
+  <body class="flex h-full max-h-screen flex-col m-0 p-0 overflow-x-hidden">
     <header
-      class="p-4 shrink-0 bg-[#221f22] border-b border-[#19181a] flex justify-between"
+      class="px-4 shrink-0 items-center h-16 bg-[#221f22] border-b border-[#19181a] flex justify-between"
     >
       <section class="flex items-center gap-4">
         <svg
@@ -82,7 +82,7 @@
             </svg>
           </button>
         </div>
-        <div class="tooltip tooltip-bottom" data-tip="Restart Simulation">
+        <div class="tooltip tooltip-bottom" data-tip="Replay Simulation">
           <button
             class="text-[#c5c5c5] hover:text-white hover:bg-[#3b3a3d] rounded-md p-2 active:scale-95 transition-all"
             onclick="window.resetSimulation()"
@@ -123,12 +123,12 @@
         </div>
       </section>
     </header>
-    <div class="grid grid-cols-2 grow h-full">
+    <div class="grid grid-cols-2 grow h-full max-h-[calc(100vh-4rem)]">
       <div
-        class="h-full border-r border-[#19181a]"
+        class="h-full border-r z-10 max-h-[calc(100vh-4rem)] border-[#19181a] bg-[#221f22]"
         id="monaco-editor-root"
       ></div>
-      <div class="flex items-center justify-center bg-[#2d2a2e]">
+      <div class="flex relative items-center max-h-[calc(100vh-4rem)] justify-center bg-[#2d2a2e]">
         <div class="h-full w-auto aspect-square">
           <canvas class="!h-full !w-full" id="simulator"></canvas>
         </div>
@@ -168,6 +168,7 @@
     <script src="simulator/wall.js"></script>
     <script src="simulator/block.js"></script>
     <script src="simulator/robot.js"></script>
+    <script src="simulator/path.js"></script>
     <script src="simulator/sketch.js"></script>
   </body>
 </html>

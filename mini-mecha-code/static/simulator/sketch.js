@@ -8,21 +8,29 @@ function setup() {
   window.scene = null;
   window.p5robot = new Robot(0, 0);
   window.zoom = 0.01;
+  window.path = new Set();
+  window.lastPos = null;
   window.offset = { x: 0, y: 0 };
   const noScene = document.getElementById("no-scene");
   noScene.style.display = "flex";
 }
 
 function draw() {
-  if (window.scene === null) return
-  
+  if (window.scene === null) return;
+
   background("#2d2a2e");
   stroke(255);
   strokeWeight(1);
 
-
   for (const entity of window.entities) {
     entity.show(window.zoom, window.offset, window.scene.size);
+  }
+
+  for (const path of window.path) {
+    path.show(window.zoom, window.offset, window.scene.size);
+    if (path.lifetime <= 0) {
+      window.path.delete(path);
+    }
   }
 
   if (
@@ -39,6 +47,18 @@ function draw() {
 }
 
 function updateRobot() {
+  // add a path point using the robot's position
+  if (window.lastPos !== null)
+    window.path.add(
+      new Path(
+        window.lastPos.x,
+        window.lastPos.y,
+        window.p5robot.x,
+        window.p5robot.y
+      )
+    );
+  window.lastPos = { x: window.p5robot.x, y: window.p5robot.y };
+
   const lastKnownState = window.scene.timestamps[window.lastTimestamp];
   const nextKnownState = window.scene.timestamps[window.lastTimestamp + 1];
 
@@ -77,6 +97,10 @@ function resetSimulation() {
   console.log("🔁 Resetting simulation");
   window.time = 0;
   window.lastTimestamp = 0;
+  window.path = new Set();
+  window.lastPos = null;
+  window.p5robot.x = 5000
+  window.p5robot.y = 5000;
 }
 
 window.setup = setup;

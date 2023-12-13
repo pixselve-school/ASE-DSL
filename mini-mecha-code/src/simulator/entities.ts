@@ -1,11 +1,11 @@
 import { Vector, Ray } from "./utils.js";
 import { Scene } from "./scene.js";
 
+
 export interface Entities {
   type: string;
   pos: Vector;
   size: Vector;
-
   intersect(ray: Ray): Vector[];
 }
 
@@ -45,17 +45,20 @@ export class Robot implements Entities {
     this.scene.timestamps.push(finalTimestamp);
   }
   move(dist: number): void {
-    const direction = Vector.fromAngle(this.rad, dist * this.speed);
-    this.pos = this.pos.plus(direction);
-    this.scene.time += dist * this.speed;
+    const direction = Vector.fromAngle(this.rad, dist).normalize();
+    this.pos = this.pos.plus(direction.scale(dist));
+    this.scene.time += dist / this.speed;
     const finalTimestamp = new Timestamp(this.scene.time, this);
     this.scene.timestamps.push(finalTimestamp);
   }
 
   side(dist: number): void {
-    const direction = Vector.fromAngle(this.rad + Math.PI / 2, dist * this.speed);
-    this.pos = this.pos.plus(direction);
-    this.scene.time += dist * this.speed;
+    const direction = Vector.fromAngle(
+      this.rad + Math.PI / 2,
+      dist
+    ).normalize();
+    this.pos = this.pos.plus(direction.scale(dist));
+    this.scene.time += dist / this.speed;
     const finalTimestamp = new Timestamp(this.scene.time, this);
     this.scene.timestamps.push(finalTimestamp);
   }

@@ -10,14 +10,25 @@ import { configureWorker } from "./setup.js";
 addMonacoStyles("monaco-editor-styles");
 
 const code = `let void entry () {
-    var number count = 0
-    loop count < 5
-    {	
-        Forward 5
-        Clock 90
-        count = count + 1
-    }
-    return
+  var number count = 0
+  setSpeed(10)
+  loop count < 4
+  {	
+      Forward 3000
+      Clock 90
+
+      count = count + 1
+  }
+  Clock 180
+  Forward 1500
+  count = 0
+  loop count < 20
+  {	
+      Forward 400
+      Clock 18
+      count = count + 1
+  }
+  return
 }
 `;
 
@@ -35,6 +46,9 @@ export const setupConfigClassic = () => {
         editorOptions: {
           "semanticHighlighting.enabled": true,
           theme: "vs-dark",
+          minimap: {
+            enabled: false,
+          },
           // this change default padding for the editor
           padding: {
             top: 16,
@@ -42,7 +56,6 @@ export const setupConfigClassic = () => {
           },
           // this change default font size for the editor
           fontSize: 20,
-          // this change default background color for the editor
         },
       },
     },
@@ -105,11 +118,12 @@ const setupSimulator = (scene) => {
 
   // SETUP ZOOM AND PANNING
 
-  let zoom = 0.5;
+  let zoom = 0.05;
   window.zoom = zoom;
-
+  
   // zoom on scroll
   window.addEventListener("wheel", (e) => {
+    const oldZoom = zoom;
     if (e.deltaY > 0) {
       zoom *= 0.8;
     } else {
@@ -118,7 +132,7 @@ const setupSimulator = (scene) => {
     window.zoom = zoom;
   });
 
-  let offset = { x: scene.size.x / 2, y: scene.size.y / 2 };
+  let offset = { x: scene.size.x / 2 + 100, y: scene.size.y / 2 + 100 };
   window.offset = offset;
 
   // pan on drag
@@ -146,4 +160,5 @@ const setupSimulator = (scene) => {
       window.offset = offset;
     }
   });
+  window.resetSimulation();
 };

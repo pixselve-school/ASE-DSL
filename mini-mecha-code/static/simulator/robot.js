@@ -32,7 +32,6 @@ class Robot {
     push();
     const canvasX = this.x * zoom + offset.x - size.x / 2;
     const canvasY = this.y * zoom + offset.y - size.y / 2;
-    console.log(this.x - size.x / 2, this.y - size.y / 2);
     translate(canvasX, canvasY);
     rotate(this.angle);
     stroke(255, 255, 255);

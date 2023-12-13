@@ -4,3 +4,8 @@ html,body {
     color: white;
     margin: 0;
 }
+
+*, *::before, *::after {
+    --vscode-editor-background: "#221f22" !important;
+    --vscode-editorGutter-background: "#221f22" !important;
+}
