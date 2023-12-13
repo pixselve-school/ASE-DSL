@@ -90,7 +90,11 @@ window.execute = () => {
 
 const setupSimulator = (scene) => {
   const noScene = document.getElementById("no-scene");
+  const timeline = document.getElementById("timeline");
+  const tips = document.getElementById("tips");
   noScene.style.display = "none";
+  timeline.style.display = "flex";
+  tips.style.display = "flex";
 
   window.scene = scene;
 
