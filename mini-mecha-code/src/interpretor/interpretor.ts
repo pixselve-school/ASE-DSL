@@ -1,8 +1,10 @@
 import {
   DefFunction,
-  Expression, FunctionCall,
+  Expression,
+  FunctionCall,
   isAnd,
-  isBooleanLitteral, isConvertion,
+  isBooleanLitteral,
+  isConvertion,
   isDefVariable,
   isDiv,
   isEqual,
@@ -18,7 +20,8 @@ import {
   isOr,
   isPlus,
   isRefVariable,
-  isRotate, isUnitOperator,
+  isRotate,
+  isUnitOperator,
   isVarAssignment,
   Loop,
   Statement,
@@ -249,7 +252,7 @@ function evaluateExpression(
   }
 
   if (isFunctionCall(expression)) {
-    return evaluateFunctionCall(expression, env, scene)
+    return evaluateFunctionCall(expression, env, scene);
   }
 
   if (isConvertion(expression) || isUnitOperator(expression)) {
@@ -294,6 +297,5 @@ function handleGetTimestamp(scene: Scene): number {
  * @return {number} - The speed that has been set.
  */
 function handleSetSpeed(scene: Scene, speed: number): number {
-  console.log("set speed", speed)
   return (scene.robot.speed = speed);
 }
