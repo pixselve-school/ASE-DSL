@@ -37,13 +37,21 @@ function draw() {
     window.scene !== null &&
     window.scene.timestamps.length > lastTimestamp + 1
   ) {
-    window.time += deltaTime;
+    if (window.pause !== true) {
+      window.time += deltaTime;
+      updateSlider();
+    }
     updateRobot();
   }
 
   if (window.p5robot !== null) {
     window.p5robot.show(window.zoom, window.offset, window.scene.size);
   }
+}
+
+function updateSlider() {
+  const slider = document.getElementById("time-slider");
+  slider.value = window.time;
 }
 
 function updateRobot() {
@@ -96,11 +104,13 @@ function updateRobot() {
 function resetSimulation() {
   console.log("🔁 Resetting simulation");
   window.time = 0;
+  window.pause = false;
   window.lastTimestamp = 0;
   window.path = new Set();
   window.lastPos = null;
-  window.p5robot.x = 5000
+  window.p5robot.x = 5000;
   window.p5robot.y = 5000;
+
 }
 
 window.setup = setup;

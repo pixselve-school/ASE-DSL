@@ -120,7 +120,7 @@ const setupSimulator = (scene) => {
 
   let zoom = 0.05;
   window.zoom = zoom;
-  
+
   // zoom on scroll
   window.addEventListener("wheel", (e) => {
     const oldZoom = zoom;
@@ -160,5 +160,47 @@ const setupSimulator = (scene) => {
       window.offset = offset;
     }
   });
+  
+  // SETUP SLIDER
+  const slider = document.getElementById("time-slider");
+  const finalTimestamp =
+    window.scene.timestamps[window.scene.timestamps.length - 1];
+  slider.max = finalTimestamp.time;
+  slider.oninput = (e) => {
+    window.time = Number(e.target.value);
+    window.pause = true;
+    window.scene.timestamps.forEach((timestamp, i) => {
+      if (timestamp.time <= window.time) {
+        window.lastTimestamp = i;
+      }
+    });
+    updateSliderIcons();
+    draw();
+  };
+  const playIcon = document.getElementById("play-button");
+  const pauseIcon = document.getElementById("pause-button");
+  playIcon.onclick = () => {
+    window.pause = false;
+    updateSliderIcons();
+  }
+  pauseIcon.onclick = () => {
+    window.pause = true;
+    updateSliderIcons();
+  }
+
   window.resetSimulation();
 };
+
+function updateSliderIcons() {
+  const isPause = window.pause;
+  const playIcon = document.getElementById("play-button");
+  const pauseIcon = document.getElementById("pause-button");
+
+  if (isPause) {
+    playIcon.style.display = "block";
+    pauseIcon.style.display = "none";
+  } else {
+    playIcon.style.display = "none";
+    pauseIcon.style.display = "block";
+  }
+}

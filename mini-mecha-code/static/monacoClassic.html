@@ -128,7 +128,56 @@
         class="h-full border-r z-10 max-h-[calc(100vh-4rem)] border-[#19181a] bg-[#221f22]"
         id="monaco-editor-root"
       ></div>
-      <div class="flex relative items-center max-h-[calc(100vh-4rem)] justify-center bg-[#2d2a2e]">
+      <div
+        class="flex relative items-center max-h-[calc(100vh-4rem)] justify-center bg-[#2d2a2e]"
+      >
+        <div
+          class="absolute bottom-8 bg-[#211f22] rounded-full flex items-center px-4 h-10 w-60 gap-2"
+        >
+          <button
+            class="text-[#c5c5c5] hover:text-white"
+            id="pause-button"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 256 256"
+              class="w-4"
+            >
+              <path
+                fill="currentColor"
+                d="M216 48v160a16 16 0 0 1-16 16h-40a16 16 0 0 1-16-16V48a16 16 0 0 1 16-16h40a16 16 0 0 1 16 16M96 32H56a16 16 0 0 0-16 16v160a16 16 0 0 0 16 16h40a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16"
+              />
+            </svg>
+          </button>
+          <button
+            class="text-[#c5c5c5] hover:text-white"
+            id="play-button"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 256 256"
+              class="w-4"
+            >
+              <path
+                fill="currentColor"
+                d="M240 128a15.74 15.74 0 0 1-7.6 13.51L88.32 229.65a16 16 0 0 1-16.2.3A15.86 15.86 0 0 1 64 216.13V39.87a15.86 15.86 0 0 1 8.12-13.82a16 16 0 0 1 16.2.3l144.08 88.14A15.74 15.74 0 0 1 240 128"
+              />
+            </svg>
+          </button>
+          <!-- update the window.time to the value on change -->
+          <input
+            type="range"
+            class="w-full"
+            id="time-slider"
+            min="0"
+            max="100"
+            value="0"
+          />
+        </div>
         <div class="h-full w-auto aspect-square">
           <canvas class="!h-full !w-full" id="simulator"></canvas>
         </div>
