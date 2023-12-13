@@ -32,16 +32,61 @@ const code = `let void entry () {
 `;
 
 export const setupConfigClassic = () => {
+  const extensionFilesOrContents = new Map();
+  const languageConfigUrl = new URL(
+    "../language-configuration.json",
+    window.location.href,
+  );
+  const textmateConfigUrl = new URL(
+    "../syntaxes/mini-mecha-code.tmLanguage.json",
+    window.location.href,
+  );
+  extensionFilesOrContents.set(
+    "/language-configuration.json",
+    languageConfigUrl,
+  );
+  extensionFilesOrContents.set(
+    "/mini-mecha-code-grammar.json",
+    textmateConfigUrl,
+  );
+
   return {
     wrapperConfig: {
       serviceConfig: defineUserServices(),
       editorAppConfig: {
-        $type: "classic",
+        $type: "extended",
         languageId: "mini-mecha-code",
         code: code,
         useDiffEditor: false,
-        languageExtensionConfig: { id: "langium" },
-        languageDef: monarchSyntax,
+        extensions: [
+          {
+            config: {
+              name: "mini-mecha-code-web",
+              publisher: "generator-langium",
+              version: "1.0.0",
+              engines: {
+                vscode: "*",
+              },
+              contributes: {
+                languages: [
+                  {
+                    id: "mini-mecha-code",
+                    extensions: [".mini"],
+                    configuration: "./language-configuration.json",
+                  },
+                ],
+                grammars: [
+                  {
+                    language: "mini-mecha-code",
+                    scopeName: "source.mini-mecha-code",
+                    path: "./mini-mecha-code-grammar.json",
+                  },
+                ],
+              },
+            },
+            filesOrContents: extensionFilesOrContents,
+          },
+        ],
         editorOptions: {
           "semanticHighlighting.enabled": true,
           theme: "vs-dark",
