@@ -12,7 +12,11 @@ function setup() {
   window.lastPos = null;
   window.offset = { x: 0, y: 0 };
   const noScene = document.getElementById("no-scene");
+  const timeline = document.getElementById("timeline");
+  const tips = document.getElementById("tips");
   noScene.style.display = "flex";
+  timeline.style.display = "none";
+  tips.style.display = "none";
 }
 
 function draw() {

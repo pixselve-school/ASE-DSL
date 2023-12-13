@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <!-- Page & Monaco styling -->
+    <title>Mini Mecha Code</title>
     <link href="styles.css" rel="stylesheet" />
     <meta name="title" content="🖊️ Editing demo.mini - Mini Mecha Code">
     <meta name="description" content="Online editor for Mini Mecha Code.">
@@ -136,14 +137,13 @@
       <div
         class="flex relative items-center max-h-[calc(100vh-4rem)] justify-center bg-[#2d2a2e]"
       >
-        <div class="text-[#c5c5c5] flex items-center gap-2 absolute top-8">
+        <div class="text-[#c5c5c5] hidden items-center gap-2 absolute top-8 pointer-events-none select-none" id="tips">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><path fill="currentColor" d="m22 10l-.625-1.375L20 8l1.375-.625L22 6l.625 1.375L24 8l-1.375.625L22 10Zm-3-4l-.95-2.05L16 3l2.05-.95L19 0l.95 2.05L22 3l-2.05.95L19 6ZM9 22q-.825 0-1.413-.588T7 20h4q0 .825-.588 1.413T9 22Zm-4-3v-2h8v2H5Zm.25-3q-1.725-1.025-2.738-2.75T1.5 9.5q0-3.125 2.188-5.313T9 2q3.125 0 5.313 2.188T16.5 9.5q0 2.025-1.012 3.75T12.75 16h-7.5Z"/></svg>
           You can zoom in/out with your mouse wheel and move the canvas by dragging it.
         </div>
-
-
         <div
-          class="absolute bottom-8 bg-[#211f22] rounded-full flex items-center px-4 h-10 w-60 gap-2"
+          class="absolute bottom-8 bg-[#211f22] rounded-full hidden items-center px-4 h-10 w-60 gap-2"
+          id="timeline"
         >
           <button
             class="text-[#c5c5c5] hover:text-white hidden"
