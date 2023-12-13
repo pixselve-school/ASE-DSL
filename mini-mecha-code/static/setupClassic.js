@@ -151,6 +151,10 @@ const setupSimulator = (scene) => {
     isDragging = false;
   });
 
+  simulator.addEventListener("mouseleave", (e) => {
+    isDragging = false;
+  });
+
   simulator.addEventListener("mousemove", (e) => {
     if (isDragging) {
       offset.x += e.clientX - lastMouseX;
@@ -160,7 +164,7 @@ const setupSimulator = (scene) => {
       window.offset = offset;
     }
   });
-  
+
   // SETUP SLIDER
   const slider = document.getElementById("time-slider");
   const finalTimestamp =
@@ -182,11 +186,11 @@ const setupSimulator = (scene) => {
   playIcon.onclick = () => {
     window.pause = false;
     updateSliderIcons();
-  }
+  };
   pauseIcon.onclick = () => {
     window.pause = true;
     updateSliderIcons();
-  }
+  };
 
   window.resetSimulation();
 };
