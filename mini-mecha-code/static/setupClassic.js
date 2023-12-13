@@ -1,4 +1,4 @@
-import { parse } from "flatted";
+import { parse } from 'https://cdn.jsdelivr.net/npm/flatted@3.2.9/+esm';
 import monarchSyntax from "../syntaxes/mini-mecha-code.monarch.js";
 import {
   addMonacoStyles,
