@@ -41,6 +41,8 @@ jobs:
           cache-dependency-path: '**/package-lock.json' # THIS PATTERN did the trick for me.
       - name: Install dependencies
         run: npm install
+      - name: Generate Langium
+        run: npm run langium:generate
       - name: Build
         run: npm run build:web
       - name: Setup Pages
