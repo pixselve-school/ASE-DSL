@@ -1,4 +1,4 @@
-import { parse } from 'https://cdn.jsdelivr.net/npm/flatted@3.2.9/+esm';
+import { parse } from "https://cdn.jsdelivr.net/npm/flatted@3.2.9/+esm";
 import monarchSyntax from "../syntaxes/mini-mecha-code.monarch.js";
 import {
   addMonacoStyles,
@@ -28,7 +28,6 @@ const code = `let void entry () {
       Clock 18
       count = count + 1
   }
-  return
 }
 `;
 
@@ -98,12 +97,12 @@ const setupSimulator = (scene) => {
   scene.entities.forEach((entity) => {
     if (entity.type === "Wall") {
       window.entities.push(
-        new Wall(entity.pos.x, entity.pos.y, entity.size.x, entity.size.y)
+        new Wall(entity.pos.x, entity.pos.y, entity.size.x, entity.size.y),
       );
     }
     if (entity.type === "Block") {
       window.entities.push(
-        new Wall(entity.pos.x, entity.pos.y, entity.size.x, entity.size.y)
+        new Wall(entity.pos.x, entity.pos.y, entity.size.x, entity.size.y),
       );
     }
   });
@@ -113,7 +112,7 @@ const setupSimulator = (scene) => {
     scene.robot.pos.y,
     scene.robot.size.x,
     scene.robot.size.y,
-    scene.robot.rad
+    scene.robot.rad,
   );
 
   // SETUP ZOOM AND PANNING
