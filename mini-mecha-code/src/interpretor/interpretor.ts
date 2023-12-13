@@ -58,7 +58,10 @@ function evaluateFunction(
   for (const stmt of functionDef.statements) {
     evaluateStatement(stmt, env, scene);
   }
-
+  // handle return value
+  if (functionDef.returnValue) {
+    return evaluateExpression(functionDef.returnValue, env, scene);
+  }
   return 0;
 }
 
