@@ -1,176 +1,173 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset='utf-8'>
-        <!-- Page & Monaco styling -->
-        <link href="styles.css" rel="stylesheet"/>
-        <title>Mini Mecha Code in Langium</title>
-
-        <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
-        <link
-                href="https://cdn.jsdelivr.net/npm/daisyui@4.4.2/dist/full.min.css"
-                rel="stylesheet"
-                type="text/css"
-        />
-        <script src="https://cdn.tailwindcss.com"></script>
-    </head>
-    <body>
+<!doctype html>
+<html class="bg-[#221f22] h-full m-0 p-0 overflow-hidden">
+  <head>
+    <meta charset="utf-8" />
+    <!-- Page & Monaco styling -->
+    <link href="styles.css" rel="stylesheet" />
+    <title>Mini Mecha Code in Langium</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.4.2/dist/full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geologica&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="flex h-full flex-col m-0 p-0 overflow-x-hidden">
     <header
-            class="p-4 bg-gradient-to-l from-blue-500/25 to-purple-500/25 flex justify-between"
+      class="p-4 shrink-0 bg-[#221f22] border-b border-[#19181a] flex justify-between"
     >
-        <section class="flex items-center">
-            <svg
-                    class="h-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
+      <section class="flex items-center gap-4">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          class="h-8 w-8"
+        >
+          <!-- Gradient definition -->
+          <defs>
+            <linearGradient
+              id="pathGradient"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
             >
-                <g fill="none">
-                    <path
-                            fill="#F8312F"
-                            d="M5 3.5a1.5 1.5 0 0 1-1 1.415V12l2.16 5.487L4 23c-1.1 0-2-.9-2-1.998v-7.004a2 2 0 0 1 1-1.728V4.915A1.5 1.5 0 1 1 5 3.5Zm25.05.05c0 .681-.44 1.26-1.05 1.468V12.2c.597.347 1 .994 1 1.73v7.01c0 1.1-.9 2-2 2l-2.94-5.68L28 11.93V5.018a1.55 1.55 0 1 1 2.05-1.468Z"
-                    />
-                    <path
-                            fill="#FFB02E"
-                            d="M11 4.5A1.5 1.5 0 0 1 12.5 3h7a1.5 1.5 0 0 1 .43 2.938c-.277.082-.57.104-.847.186l-3.053.904l-3.12-.908c-.272-.08-.56-.1-.832-.18A1.5 1.5 0 0 1 11 4.5Z"
-                    />
-                    <path
-                            fill="#CDC4D6"
-                            d="M22.05 30H9.95C6.66 30 4 27.34 4 24.05V12.03C4 8.7 6.7 6 10.03 6h11.95C25.3 6 28 8.7 28 12.03v12.03c0 3.28-2.66 5.94-5.95 5.94Z"
-                    />
-                    <path
-                            fill="#212121"
-                            d="M9.247 18.5h13.506c2.33 0 4.247-1.919 4.247-4.25A4.257 4.257 0 0 0 22.753 10H9.247A4.257 4.257 0 0 0 5 14.25a4.257 4.257 0 0 0 4.247 4.25Zm4.225 7.5h5.056C19.34 26 20 25.326 20 24.5s-.66-1.5-1.472-1.5h-5.056C12.66 23 12 23.674 12 24.5s.66 1.5 1.472 1.5Z"
-                    />
-                    <path
-                            fill="#00A6ED"
-                            d="M10.25 12C9.56 12 9 12.56 9 13.25v2.5a1.25 1.25 0 1 0 2.5 0v-2.5c0-.69-.56-1.25-1.25-1.25Zm11.5 0c-.69 0-1.25.56-1.25 1.25v2.5a1.25 1.25 0 1 0 2.5 0v-2.5c0-.69-.56-1.25-1.25-1.25Z"
-                    />
-                </g>
+              <stop
+                offset="0%"
+                style="stop-color: rgb(255, 0, 64); stop-opacity: 1"
+              />
+              <stop
+                offset="100%"
+                style="stop-color: rgb(165, 66, 247); stop-opacity: 1"
+              />
+            </linearGradient>
+          </defs>
+
+          <!-- Path with gradient fill -->
+          <path
+            fill="url(#pathGradient)"
+            d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5"
+          />
+        </svg>
+        <h1>Mini Mecha Code</h1>
+      </section>
+      <section class="flex items-center gap-4 text-[#7a7a7a]">
+        <h1>Editing demo.mini</h1>
+      </section>
+      <section class="flex gap-2 items-center">
+        <div class="tooltip tooltip-bottom" data-tip="Execute Simulation">
+          <button
+            class="text-[#c5c5c5] hover:text-white hover:bg-[#3b3a3d] rounded-md p-2 active:scale-95 transition-all"
+            onclick="window.execute()"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              class="h-6 w-6"
+            >
+              <path
+                fill="currentColor"
+                d="M7 28a1 1 0 0 1-1-1V5a1 1 0 0 1 1.482-.876l20 11a1 1 0 0 1 0 1.752l-20 11A1 1 0 0 1 7 28M8 6.69v18.62L24.925 16Z"
+              />
             </svg>
-            <h1>Mini Mecha Code in Langium</h1>
-        </section>
-        <section>
-            <div class="tooltip tooltip-bottom" data-tip="Parse and Validate">
-                <button
-                        class="btn btn-primary btn-sm"
-                        onclick="window.parseAndValidate()"
-                >
-                    <svg
-                            class="h-4"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="32"
-                            height="32"
-                            viewBox="0 0 512 512"
-                    >
-                        <path
-                                fill="currentColor"
-                                d="M416 208c0 45.9-14.9 88.3-40 122.7l126.6 126.7c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0s208 93.1 208 208zM208 352a144 144 0 1 0 0-288a144 144 0 1 0 0 288z"
-                        />
-                    </svg>
-                </button>
-            </div>
-            <div class="tooltip tooltip-bottom" data-tip="Execute Simulation">
-                <button class="btn btn-accent btn-sm" onclick="window.execute()">
-                    <svg
-                            class="h-4"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="32"
-                            viewBox="0 0 384 512"
-                    >
-                        <path
-                                fill="currentColor"
-                                d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80v352c0 17.4 9.4 33.4 24.5 41.9S58.2 482 73 473l288-176c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"
-                        />
-                    </svg>
-                </button>
-            </div>
-            <div class="tooltip tooltip-bottom" data-tip="Restart Simulation">
-                <button
-                        class="btn btn-secondary btn-sm"
-                        onclick="window.resetSimulation()"
-                >
-                    <svg
-                            class="h-4"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="32"
-                            height="32"
-                            viewBox="0 0 512 512"
-                    >
-                        <path
-                                fill="currentColor"
-                                d="M105.1 202.6c7.7-21.8 20.2-42.3 37.8-59.8c62.5-62.5 163.8-62.5 226.3 0l17.1 17.2H336c-17.7 0-32 14.3-32 32s14.3 32 32 32h127.9c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v51.2l-17.5-17.6c-87.5-87.5-229.3-87.5-316.8 0c-24.4 24.4-42 53.1-52.8 83.8c-5.9 16.7 2.9 34.9 19.5 40.8s34.9-2.9 40.8-19.5zM39 289.3c-5 1.5-9.8 4.2-13.7 8.2c-4 4-6.7 8.8-8.1 14c-.3 1.2-.6 2.5-.8 3.8c-.3 1.7-.4 3.4-.4 5.1V448c0 17.7 14.3 32 32 32s32-14.3 32-32v-51.1l17.6 17.5c87.5 87.4 229.3 87.4 316.7 0c24.4-24.4 42.1-53.1 52.9-83.7c5.9-16.7-2.9-34.9-19.5-40.8s-34.9 2.9-40.8 19.5c-7.7 21.8-20.2 42.3-37.8 59.8c-62.5 62.5-163.8 62.5-226.3 0l-.1-.1l-17.1-17.1H176c17.7 0 32-14.3 32-32s-14.3-32-32-32H48.4c-1.6 0-3.2.1-4.8.3s-3.1.5-4.6 1z"
-                        />
-                    </svg>
-                </button>
-            </div>
-            <div class="tooltip tooltip-bottom" data-tip="Clear Data">
-                <button class="btn btn-ghost btn-sm" onclick="window.setup()">
-                    <svg
-                            class="h-4"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="28"
-                            height="32"
-                            viewBox="0 0 448 512"
-                    >
-                        <path
-                                fill="currentColor"
-                                d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64s14.3 32 32 32h384c17.7 0 32-14.3 32-32s-14.3-32-32-32h-96l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32l21.2 339c1.6 25.3 22.6 45 47.9 45h245.8c25.3 0 46.3-19.7 47.9-45L416 128z"
-                        />
-                    </svg>
-                </button>
-            </div>
-        </section>
+          </button>
+        </div>
+        <div class="tooltip tooltip-bottom" data-tip="Restart Simulation">
+          <button
+            class="text-[#c5c5c5] hover:text-white hover:bg-[#3b3a3d] rounded-md p-2 active:scale-95 transition-all"
+            onclick="window.resetSimulation()"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              class="h-6 w-6"
+            >
+              <path
+                fill="currentColor"
+                d="M26 18A10 10 0 1 1 16 8h6.182l-3.584 3.585L20 13l6-6l-6-6l-1.402 1.414L22.185 6H16a12 12 0 1 0 12 12Z"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="tooltip tooltip-bottom" data-tip="Clear Scene">
+          <button
+            class="text-[#c5c5c5] hover:text-white hover:bg-[#3b3a3d] rounded-md p-2 active:scale-95 transition-all"
+            onclick="window.setup()"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              class="h-6 w-6"
+            >
+              <path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z" />
+              <path
+                fill="currentColor"
+                d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z"
+              />
+            </svg>
+          </button>
+        </div>
+      </section>
     </header>
-    <div class="grid grid-cols-2 gap-2">
-        <div class="h-full" id="monaco-editor-root"></div>
-        <div class="simulator">
-            <canvas class="w-full" id="simulator"></canvas>
+    <div class="grid grid-cols-2 grow h-full">
+      <div
+        class="h-full border-r border-[#19181a]"
+        id="monaco-editor-root"
+      ></div>
+      <div class="flex items-center justify-center bg-[#2d2a2e]">
+        <div class="h-full w-auto aspect-square">
+          <canvas class="!h-full !w-full" id="simulator"></canvas>
         </div>
-    </div>
-
-    <div id="errorModal" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="close">&times;</span>
-                <h2>RoboML Type checking errors</h2>
-            </div>
-            <div class="modal-body"></div>
+        <div
+          id="no-scene"
+          class="absolute flex flex-col items-center justify-center gap-4 text-[#c5c5c5]"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            class="h-10 w-10"
+          >
+            <path d="M11 2H2v9h2V4h7V2z" fill="currentColor" />
+            <path d="M2 21v9h9v-2H4v-7H2z" fill="currentColor" />
+            <path d="M30 11V2h-9v2h7v7h2z" fill="currentColor" />
+            <path d="M21 30h9v-9h-2v7h-7v2z" fill="currentColor" />
+            <path
+              d="M25.49 10.13l-9-5a1 1 0 0 0-1 0l-9 5A1 1 0 0 0 6 11v10a1 1 0 0 0 .51.87l9 5a1 1 0 0 0 1 0l9-5A1 1 0 0 0 26 21V11a1 1 0 0 0-.51-.87zM16 7.14L22.94 11L16 14.86L9.06 11zM8 12.7l7 3.89v7.71l-7-3.89zm9 11.6v-7.71l7-3.89v7.71z"
+              fill="currentColor"
+            />
+          </svg>
+          No scene to display
         </div>
+      </div>
     </div>
+    <!-- Monaco Configuration -->
+    <script type="module">
+      import { executeClassic } from "./setupClassic.js";
 
-    <div id="validModal" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="close">&times;</span>
-                <h2>RoboML Type checking validation</h2>
-            </div>
-            <div class="modal-body">Your code is correctly typed.</div>
-        </div>
-    </div>
-
-    <footer class="flex flex-col items-center">
-        <p style="font-style: italic">Powered by</p>
-        <img
-                width="125"
-                src="https://langium.org/assets/langium_logo_w_nib.svg"
-                alt="Langium"
-        />
-    </footer>
-        <!-- Monaco Configuration -->
-        <script type="module">
-            import { executeClassic } from './setupClassic.js';
-
-            // keep a reference to a promise for when the editor is finished starting, we'll use this to setup the canvas on load
-            const startingPromise = executeClassic(document.getElementById('monaco-editor-root'));
-        </script>
+      // keep a reference to a promise for when the editor is finished starting, we'll use this to setup the canvas on load
+      const startingPromise = executeClassic(
+        document.getElementById("monaco-editor-root")
+      );
+    </script>
     <script src="simulator/wall.js"></script>
     <script src="simulator/block.js"></script>
     <script src="simulator/robot.js"></script>
     <script src="simulator/sketch.js"></script>
-    </body>
+  </body>
 </html>

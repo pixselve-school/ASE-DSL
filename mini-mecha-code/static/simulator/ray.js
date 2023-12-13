@@ -1,14 +1,13 @@
 class Ray {
-
   constructor(x, y, angle) {
     this.x = x;
     this.y = y;
-    this.angle = angle
+    this.angle = angle;
     this.v = p5.Vector.fromAngle(this.angle, 1000);
     this.poi = null;
   }
 
-  show() {
+  show(zoom, offset, size) {
     push();
     stroke(10, 255, 10);
     translate(this.x, this.y);
@@ -30,7 +29,7 @@ class Ray {
   findClosestPoi(pois) {
     let idx = 0;
     let minDist = Infinity;
-    if (pois.every(ele => ele === null)) {
+    if (pois.every((ele) => ele === null)) {
       this.poi = null;
     } else {
       for (var i = 0; i < pois.length; i++) {

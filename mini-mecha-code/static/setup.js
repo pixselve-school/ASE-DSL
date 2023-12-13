@@ -1,18 +1,25 @@
 import { buildWorkerDefinition } from "./monaco-editor-workers/index.js";
-buildWorkerDefinition('./monaco-editor-workers/workers', new URL('', window.location.href).href, false);
+buildWorkerDefinition(
+  "./monaco-editor-workers/workers",
+  new URL("", window.location.href).href,
+  false
+);
 
 export const configureWorker = () => {
-    const workerURL = new URL('./worker/mini-mecha-code-server-worker.js', import.meta.url);
-    console.log(`Using the following  worker URL: ${workerURL.href}`);
-    const lsWorker = new Worker(workerURL.href, {
-        type: 'classic',
-        name: 'MiniMechaCode Language Server'
-    });
+  const workerURL = new URL(
+    "./worker/mini-mecha-code-server-worker.js",
+    import.meta.url
+  );
+  console.log(`Using the following  worker URL: ${workerURL.href}`);
+  const lsWorker = new Worker(workerURL.href, {
+    type: "classic",
+    name: "MiniMechaCode Language Server",
+  });
 
-    return {
-        options: {
-            $type: 'WorkerDirect',
-            worker: lsWorker
-        }
-    }
+  return {
+    options: {
+      $type: "WorkerDirect",
+      worker: lsWorker,
+    },
+  };
 };
