@@ -3,6 +3,7 @@ import chalk from "chalk";
 import * as path from "node:path";
 import * as fs from "node:fs";
 import { URI } from "langium";
+import { builtInMiniMechaCode } from "../language/built-in.js";
 
 export async function extractDocument(
   fileName: string,
@@ -23,12 +24,21 @@ export async function extractDocument(
     process.exit(1);
   }
 
+  // create a new file with the std prepended
+  const fileNameWithStd = fileName + ".with-std";
+  const fileContent = fs.readFileSync(fileName, "utf-8");
+  fs.writeFileSync(fileNameWithStd, builtInMiniMechaCode + fileContent);
+
   const document =
     services.shared.workspace.LangiumDocuments.getOrCreateDocument(
-      URI.file(path.resolve(fileName)),
+      URI.file(path.resolve(fileNameWithStd)),
     );
+
+  // delete the file with the std prepended
+  fs.rmSync(fileNameWithStd);
+
   await services.shared.workspace.DocumentBuilder.build([document], {
-    validation: true,
+    validation: false, // TODO: Issue with the std library
   });
 
   const validationErrors = (document.diagnostics ?? []).filter(

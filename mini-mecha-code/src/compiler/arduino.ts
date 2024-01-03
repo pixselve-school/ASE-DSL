@@ -145,9 +145,11 @@ function evaluateFunctionCall(functionCall: FunctionCall): string {
     return "getTimestamp()";
   }
   if (reference.name === SET_SPEED) {
-    return `setSpeed()`; // TODO: Handle params
+    const params = functionCall.parameters.map((p) => evaluateExpression(p));
+    return `setSpeed(${params.join(", ")})`;
   }
-  return `${reference.name}()`; // TODO: Handle params
+  const params = functionCall.parameters.map((p) => evaluateExpression(p));
+  return `${reference.name}(${params.join(", ")})`;
 }
 
 /**
