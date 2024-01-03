@@ -56,7 +56,8 @@ export default function compileToArduino(model: Model): string[] {
 
 function evaluateFunctionDef(functionDef: DefFunction): string[] {
   const result: string[] = [];
-  result.push(`float ${functionDef.name}() {`); // TODO: Handle params
+  const params = functionDef.parameters.map((p) => `${p.varType} ${p}`);
+  result.push(`float ${functionDef.name}(${params.join(", ")}) {`); // TODO: Handle params
   for (const stmt of functionDef.statements) {
     result.push(...evaluateStatement(stmt));
   }
