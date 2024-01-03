@@ -59,7 +59,7 @@ export default function compileToArduino(model: Model): string[] {
   }
   result.push("void loop() {");
   // run main function
-  result.push("  main();");
+  result.push("  entry();");
   result.push("}");
   return result;
 }
@@ -76,7 +76,11 @@ function evaluateFunctionDef(functionDef: DefFunction): string[] {
     return [];
 
   const params = functionDef.parameters.map((p) => `float ${p.name}`);
-  result.push(`float ${functionDef.name}(${params.join(", ")}) {`);
+  result.push(
+    `${functionDef.returnType === "void" ? "void" : "float"} ${
+      functionDef.name
+    }(${params.join(", ")}) {`,
+  );
   for (const stmt of functionDef.statements) {
     result.push(...evaluateStatement(stmt, 1));
   }
