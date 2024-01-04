@@ -29,6 +29,12 @@ export class Vector {
     return new Vector(this.x * factor, this.y * factor);
   }
 
+  dist(other: Vector): number {
+    const dx = other.x - this.x;
+    const dy = other.y - this.y;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
   projX(): Vector {
     return new Vector(this.x, 0);
   }

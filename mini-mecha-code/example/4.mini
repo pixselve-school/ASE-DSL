@@ -1,0 +1,8 @@
+let void entry () {
+  setSpeed(10)
+  loop getDistance() > 100
+  {	
+    Forward 100
+  }
+  return
+}

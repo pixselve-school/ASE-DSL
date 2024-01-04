@@ -35,20 +35,14 @@ class Robot {
     translate(canvasX, canvasY);
     rotate(this.angle);
     stroke(255, 255, 255);
+    fill(255, 255, 255);
     const realWidth = this.width * zoom;
     const realHeight = this.height * zoom;
     rect(-realHeight / 2, -realWidth / 2, realHeight, realWidth);
-    stroke(255, 0, 0);
-    fill(255, 0, 0);
+    stroke(171, 157, 242);
+    fill(171, 157, 242);
     const h = (Math.sqrt(3) / 2) * (realWidth / 3);
-    triangle(
-      -0.5 * h,
-      -(realHeight / 6),
-      -0.5 * h,
-      realHeight / 6,
-      0.5 * h,
-      0
-    );
+    triangle(-0.5 * h, -(realHeight / 6), -0.5 * h, realHeight / 6, 0.5 * h, 0);
     pop();
   }
 

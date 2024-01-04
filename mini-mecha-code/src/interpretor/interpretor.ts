@@ -278,6 +278,7 @@ function evaluateExpression(
  * @return {number} - The distance between the robot and the closest obstacle.
  */
 function handleGetDistance(scene: Scene): number {
+  console.log(scene.robot.getForwardDist());
   return scene.robot.getForwardDist();
 }
 

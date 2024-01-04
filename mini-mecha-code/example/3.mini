@@ -3,19 +3,19 @@ let void entry () {
   setSpeed(10)
   loop count < 4
   {	
-      Forward 3000
-      Clock 90
+    Forward 3000
+    Clock 90
 
-      count = count + 1
+    count = count + 1
   }
   Clock 180
   Forward 1500
   count = 0
   loop count < 20
   {	
-      Forward 400
-      Clock 18
-      count = count + 1
+    Forward 400
+    Clock 18
+    count = count + 1
   }
   return
 }

@@ -1,0 +1,16 @@
+let void entry () {
+  var number count = 0
+  setSpeed(10)
+  Clock 30
+  loop count < 500
+  {	
+    loop getDistance() < 500
+    {
+      Clock 5
+    }
+    Forward 500
+
+    count = count + 1
+  }
+  return
+}

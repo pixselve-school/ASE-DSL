@@ -1,7 +1,6 @@
 import { Vector, Ray } from "./utils.js";
 import { Scene } from "./scene.js";
 
-
 export interface Entities {
   type: string;
   pos: Vector;
@@ -32,11 +31,31 @@ export class Robot implements Entities {
   }
 
   getForwardDist(): number {
-    return 100;
+    // get all walls
+    const walls = this.scene.entities.filter(
+      (x) => x.type === "Wall"
+    ) as Wall[];
+
+    const forwardRay = this.getRay();
+
+    // find the nearest wall that the forward ray intersects
+    let minDist = Infinity;
+    for (const wall of walls) {
+      const intersectionPoints = wall.intersect(forwardRay);
+      for (const point of intersectionPoints) {
+        const dist = this.pos.dist(point);
+        if (dist < minDist) {
+          minDist = dist;
+        }
+      }
+    }
+
+    return minDist;
   }
 
   intersect(ray: Ray): Vector[] {
-    return [] as Vector[];
+    const poi = ray.getPoiFinder()(this.pos, this.size);
+    return poi ? ([poi] as Vector[]) : ([] as Vector[]);
   }
 
   turn(angle: number): void {
@@ -114,8 +133,8 @@ export class Block implements Entities {
 
 export class Wall implements Entities {
   type: string = "Wall";
-  pos: Vector;
-  size: Vector;
+  pos: Vector; // top left corner
+  size: Vector; // bottom right corner
 
   constructor(p1: Vector, p2: Vector) {
     this.pos = p1;
