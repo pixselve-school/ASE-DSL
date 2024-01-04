@@ -34,6 +34,16 @@ import {
 } from "../language/built-in.js";
 import stdArduino from "./std-arduino.js";
 
+declare global {
+  interface String {
+    addIndent(indent: number): string;
+  }
+}
+
+String.prototype.addIndent = function (indent: number) {
+  return "\t".repeat(indent) + this;
+};
+
 /**
  * Compiles a model to Arduino code.
  *
@@ -49,16 +59,30 @@ export default function compileToArduino(model: Model): string[] {
   }
   result.push("void loop() {");
   // run main function
-  result.push("  main();");
+  result.push("  entry();");
   result.push("}");
   return result;
 }
 
 function evaluateFunctionDef(functionDef: DefFunction): string[] {
   const result: string[] = [];
-  result.push(`float ${functionDef.name}() {`); // TODO: Handle params
+
+  // handle built-in functions
+  if (
+    functionDef.name === GET_DISTANCE ||
+    functionDef.name === GET_TIMESTAMP ||
+    functionDef.name === SET_SPEED
+  )
+    return [];
+
+  const params = functionDef.parameters.map((p) => `float ${p.name}`);
+  result.push(
+    `${functionDef.returnType === "void" ? "void" : "float"} ${
+      functionDef.name
+    }(${params.join(", ")}) {`,
+  );
   for (const stmt of functionDef.statements) {
-    result.push(...evaluateStatement(stmt));
+    result.push(...evaluateStatement(stmt, 1));
   }
   result.push("}");
   return result;
@@ -68,18 +92,17 @@ function evaluateFunctionDef(functionDef: DefFunction): string[] {
  * Evaluates a loop statement.
  *
  * @param {Loop} statement - The loop statement to evaluate.
- * @param {Map<string, number>} env - The environment containing the variable value bindings.
- * @param {Scene} scene - The scene in which the loop is evaluated.
+ * @param indent - The indentation level.
  */
-function evaluateLoop(statement: Loop): string[] {
+function evaluateLoop(statement: Loop, indent: number): string[] {
   const result: string[] = [];
   const condition = evaluateExpression(statement.condition);
   const loopStatements = statement.statements;
-  result.push(`while (${condition}) {`);
+  result.push(`while (${condition}) {`.addIndent(indent));
   for (const stmt of loopStatements) {
-    result.push(...evaluateStatement(stmt));
+    result.push(...evaluateStatement(stmt, indent + 1));
   }
-  result.push("}");
+  result.push("}".addIndent(indent));
   return result;
 }
 
@@ -87,21 +110,20 @@ function evaluateLoop(statement: Loop): string[] {
  * Evaluates a statement.
  *
  * @param {Statement} statement - The statement to evaluate.
- * @param {Map<string, number>} env - The environment containing the variable value bindings.
- * @param {Scene} scene - The scene in which the statement is evaluated.
+ * @param indent - The indentation level.
  */
-function evaluateStatement(statement: Statement): string[] {
+function evaluateStatement(statement: Statement, indent: number): string[] {
   if (isDefVariable(statement)) {
     if (statement.value === undefined) {
       // value is undefined only when used in a function parameter
       throw new Error(`Variable ${statement.name} not initialized`);
     }
     const value = evaluateExpression(statement.value);
-    return [`float ${statement.name} = ${value};`];
+    return [`float ${statement.name} = ${value};`.addIndent(indent)];
   }
 
   if (isFunctionCall(statement)) {
-    return [`${evaluateFunctionCall(statement)};`];
+    return [`${evaluateFunctionCall(statement)};`.addIndent(indent)];
   }
 
   if (isVarAssignment(statement)) {
@@ -113,21 +135,21 @@ function evaluateStatement(statement: Statement): string[] {
       throw new Error(`Variable ${statement.ref.ref.name} not initialized`);
     }
     const value = evaluateExpression(statement.value);
-    return [`${statement.ref.ref!.name} = ${value};`];
+    return [`${statement.ref.ref!.name} = ${value};`.addIndent(indent)];
   }
 
   if (isLoop(statement)) {
-    return evaluateLoop(statement);
+    return evaluateLoop(statement, indent);
   }
 
   if (isRotate(statement)) {
     const value = evaluateExpression(statement.angle);
-    return [`rotate(${value});`];
+    return [`rotate(${value});`.addIndent(indent)];
   }
 
   if (isForward(statement)) {
     const value = evaluateExpression(statement.distance);
-    return [`forward(${value});`];
+    return [`forward(${value});`.addIndent(indent)];
   }
 
   throw new Error(`Statement ${statement} not implemented`);
@@ -145,9 +167,11 @@ function evaluateFunctionCall(functionCall: FunctionCall): string {
     return "getTimestamp()";
   }
   if (reference.name === SET_SPEED) {
-    return `setSpeed()`; // TODO: Handle params
+    const params = functionCall.parameters.map((p) => evaluateExpression(p));
+    return `setSpeed(${params.join(", ")})`;
   }
-  return `${reference.name}()`; // TODO: Handle params
+  const params = functionCall.parameters.map((p) => evaluateExpression(p));
+  return `${reference.name}(${params.join(", ")})`;
 }
 
 /**
