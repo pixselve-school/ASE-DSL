@@ -48,9 +48,7 @@ export default function (): void {
       `source file (possible file extensions: ${fileExtensions})`,
     )
     .option("-d, --destination <dir>", "destination directory of generating")
-    .description(
-      'generates JavaScript code that prints "Hello, {name}!" for each greeting in a source file',
-    )
+    .description("generates Arduino code")
     .action(generateAction);
 
   program.parse(process.argv);
