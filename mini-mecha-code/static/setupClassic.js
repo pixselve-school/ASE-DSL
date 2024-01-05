@@ -6,49 +6,36 @@ import {
   MonacoEditorLanguageClientWrapper,
 } from "./bundle/index.js";
 import { configureWorker } from "./setup.js";
+import { scripts } from "./demoScripts.js";
 
 addMonacoStyles("monaco-editor-styles");
 
-const code = `let void entry () {
-  var number count = 0
-  setSpeed(10)
-  loop count < 4
-  {	
-    Forward 3000
-    Clock 90
-
-    count = count + 1
-  }
-  Clock 180
-  Forward 1500
-  count = 0
-  loop count < 20
-  {	
-    Forward 400
-    Clock 18
-    count = count + 1
-  }
-}
-`;
 
 export const setupConfigClassic = () => {
   const extensionFilesOrContents = new Map();
   const languageConfigUrl = new URL(
     "../language-configuration.json",
-    window.location.href,
+    window.location.href
   );
   const textmateConfigUrl = new URL(
     "../syntaxes/mini-mecha-code.tmLanguage.json",
-    window.location.href,
+    window.location.href
   );
   extensionFilesOrContents.set(
     "/language-configuration.json",
-    languageConfigUrl,
+    languageConfigUrl
   );
   extensionFilesOrContents.set(
     "/mini-mecha-code-grammar.json",
-    textmateConfigUrl,
+    textmateConfigUrl
   );
+
+
+
+  let code = scripts[window.selectedScript]
+  if (!code) {
+    code = Object.values(scripts)[0]
+  }
 
   return {
     wrapperConfig: {
@@ -133,6 +120,14 @@ window.execute = () => {
   console.log("No code to execute");
 };
 
+window.setScript = (scriptId) => {
+  window.selectedScript = scriptId;
+  // clean root children
+  const root = document.getElementById("monaco-editor-root");
+  root.innerHTML = "";
+  executeClassic(root);
+};
+
 const setupSimulator = (scene) => {
   const noScene = document.getElementById("no-scene");
   const timeline = document.getElementById("timeline");
@@ -146,12 +141,12 @@ const setupSimulator = (scene) => {
   scene.entities.forEach((entity) => {
     if (entity.type === "Wall") {
       window.entities.push(
-        new Wall(entity.pos.x, entity.pos.y, entity.size.x, entity.size.y),
+        new Wall(entity.pos.x, entity.pos.y, entity.size.x, entity.size.y)
       );
     }
     if (entity.type === "Block") {
       window.entities.push(
-        new Wall(entity.pos.x, entity.pos.y, entity.size.x, entity.size.y),
+        new Wall(entity.pos.x, entity.pos.y, entity.size.x, entity.size.y)
       );
     }
   });
@@ -161,7 +156,7 @@ const setupSimulator = (scene) => {
     scene.robot.pos.y,
     scene.robot.size.x,
     scene.robot.size.y,
-    scene.robot.rad,
+    scene.robot.rad
   );
 
   // SETUP ZOOM AND PANNING

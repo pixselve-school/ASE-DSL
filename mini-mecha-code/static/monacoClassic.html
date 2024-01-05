@@ -5,12 +5,12 @@
     <!-- Page & Monaco styling -->
     <title>Mini Mecha Code</title>
     <link href="styles.css" rel="stylesheet" />
-    <meta name="title" content="🖊️ Editing demo.mini - Mini Mecha Code">
-    <meta name="description" content="Online editor for Mini Mecha Code.">
-    <meta name="keywords" content="school,esir,code,editor,dsl">
-    <meta name="robots" content="index, follow">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="language" content="English">
+    <meta name="title" content="🖊️ Editing demo.mini - Mini Mecha Code" />
+    <meta name="description" content="Online editor for Mini Mecha Code." />
+    <meta name="keywords" content="school,esir,code,editor,dsl" />
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="language" content="English" />
     <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
     <link
       href="https://cdn.jsdelivr.net/npm/daisyui@4.4.2/dist/full.min.css"
@@ -66,7 +66,17 @@
         <h1>Mini Mecha Code</h1>
       </section>
       <section class="flex items-center gap-4 text-[#7a7a7a]">
-        <h1>Editing demo.mini</h1>
+        <h1>
+          Editing
+          <select
+            name="filename"
+            id="filename"
+            class="bg-transparent border-none text-[#c5c5c5] hover:text-white hover:bg-[#3b3a3d] rounded-md p-2 active:scale-95 transition-all"
+            onchange="window.setScript(this.value)"
+          >
+          <!-- automatically filled with scripts -->
+          </select>
+        </h1>
       </section>
       <section class="flex gap-2 items-center">
         <div class="tooltip tooltip-bottom" data-tip="Execute Simulation">
@@ -137,9 +147,22 @@
       <div
         class="flex relative items-center max-h-[calc(100vh-4rem)] justify-center bg-[#2d2a2e]"
       >
-        <div class="text-[#c5c5c5] hidden items-center gap-2 absolute top-8 pointer-events-none select-none" id="tips">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6" viewBox="0 0 24 24"><path fill="currentColor" d="m22 10l-.625-1.375L20 8l1.375-.625L22 6l.625 1.375L24 8l-1.375.625L22 10Zm-3-4l-.95-2.05L16 3l2.05-.95L19 0l.95 2.05L22 3l-2.05.95L19 6ZM9 22q-.825 0-1.413-.588T7 20h4q0 .825-.588 1.413T9 22Zm-4-3v-2h8v2H5Zm.25-3q-1.725-1.025-2.738-2.75T1.5 9.5q0-3.125 2.188-5.313T9 2q3.125 0 5.313 2.188T16.5 9.5q0 2.025-1.012 3.75T12.75 16h-7.5Z"/></svg>
-          You can zoom in/out with your mouse wheel and move the canvas by dragging it.
+        <div
+          class="text-[#c5c5c5] hidden items-center gap-2 absolute top-8 pointer-events-none select-none"
+          id="tips"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="currentColor"
+              d="m22 10l-.625-1.375L20 8l1.375-.625L22 6l.625 1.375L24 8l-1.375.625L22 10Zm-3-4l-.95-2.05L16 3l2.05-.95L19 0l.95 2.05L22 3l-2.05.95L19 6ZM9 22q-.825 0-1.413-.588T7 20h4q0 .825-.588 1.413T9 22Zm-4-3v-2h8v2H5Zm.25-3q-1.725-1.025-2.738-2.75T1.5 9.5q0-3.125 2.188-5.313T9 2q3.125 0 5.313 2.188T16.5 9.5q0 2.025-1.012 3.75T12.75 16h-7.5Z"
+            />
+          </svg>
+          You can zoom in/out with your mouse wheel and move the canvas by
+          dragging it.
         </div>
         <div
           class="absolute bottom-8 bg-[#211f22] rounded-full hidden items-center px-4 h-10 w-60 gap-2"
@@ -162,10 +185,7 @@
               />
             </svg>
           </button>
-          <button
-            class="text-[#c5c5c5] hover:text-white"
-            id="play-button"
-          >
+          <button class="text-[#c5c5c5] hover:text-white" id="play-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -219,6 +239,16 @@
     <!-- Monaco Configuration -->
     <script type="module">
       import { executeClassic } from "./setupClassic.js";
+      import { scripts } from "./demoScripts.js";
+
+      const filenameInput = document.getElementById("filename");
+      // add option to select tag for each script
+      for (const scriptId in scripts) {
+        const option = document.createElement("option");
+        option.value = scriptId;
+        option.innerHTML = scriptId;
+        filenameInput.appendChild(option);
+      }
 
       // keep a reference to a promise for when the editor is finished starting, we'll use this to setup the canvas on load
       const startingPromise = executeClassic(
