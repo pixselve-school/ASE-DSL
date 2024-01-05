@@ -20,7 +20,7 @@
 
 Le projet est [accessible ici](https://pixselve-school.github.io/ASE-DSL/static/monacoClassic).
 
-Néanmoins, pour le compiler sois-même :
+Néanmoins, pour le compiler soi-même :
 
 ```bash
 cd mini-mecha-code
