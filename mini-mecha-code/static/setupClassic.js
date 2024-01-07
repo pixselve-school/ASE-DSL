@@ -10,7 +10,6 @@ import { scripts } from "./demoScripts.js";
 
 addMonacoStyles("monaco-editor-styles");
 
-
 export const setupConfigClassic = () => {
   const extensionFilesOrContents = new Map();
   const languageConfigUrl = new URL(
@@ -30,11 +29,9 @@ export const setupConfigClassic = () => {
     textmateConfigUrl
   );
 
-
-
-  let code = scripts[window.selectedScript]
+  let code = scripts[window.selectedScript];
   if (!code) {
-    code = Object.values(scripts)[0]
+    code = Object.values(scripts)[0];
   }
 
   return {
@@ -98,7 +95,7 @@ export const executeClassic = async (htmlElement) => {
   const userConfig = setupConfigClassic();
   const wrapper = new MonacoEditorLanguageClientWrapper();
   await wrapper.start(userConfig, htmlElement);
-
+  window.editor = wrapper.getEditor();
   // get the language client
   const client = wrapper.getLanguageClient();
   if (!client) {
@@ -122,10 +119,13 @@ window.execute = () => {
 
 window.setScript = (scriptId) => {
   window.selectedScript = scriptId;
-  // clean root children
-  const root = document.getElementById("monaco-editor-root");
-  root.innerHTML = "";
-  executeClassic(root);
+
+  let code = scripts[window.selectedScript];
+  if (!code) {
+    code = Object.values(scripts)[0];
+  }
+  const editor = window.editor;
+  editor.setValue(code);
 };
 
 const setupSimulator = (scene) => {
