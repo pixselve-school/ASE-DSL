@@ -17,5 +17,4 @@ let void entry () {
     Clock 18
     count = count + 1
   }
-  return
 }

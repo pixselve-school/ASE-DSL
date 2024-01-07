@@ -12,5 +12,4 @@ let void entry () {
 
     count = count + 1
   }
-  return
 }

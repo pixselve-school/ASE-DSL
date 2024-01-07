@@ -4,5 +4,4 @@ let void entry () {
   {	
     Forward 100
   }
-  return
 }

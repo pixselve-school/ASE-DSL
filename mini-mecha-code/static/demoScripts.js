@@ -18,7 +18,6 @@ export const scripts = {
     Clock 18
     count = count + 1
   }
-  return
 }
 `,
   "yeah-functions.mini": `let void entry () {
@@ -27,7 +26,6 @@ export const scripts = {
   Forward 1500
   circle()
   circle()
-  return
 }
 
 let void circle() {
@@ -38,7 +36,6 @@ let void circle() {
     Clock 18
     count = count + 1
   }
-  return
 }
 
 let void square() {
@@ -51,8 +48,6 @@ let void square() {
 
     count = count + 1
   }
-
-  return
 }`,
   "basic-wall-detection.mini": `let void entry () {
   setSpeed(10)
@@ -60,7 +55,6 @@ let void square() {
   {	
     Forward 100
   }
-  return
 }
 `,
   "wall-riding.mini": `let void entry () {
@@ -77,7 +71,6 @@ let void square() {
 
     count = count + 1
   }
-  return
 }
 `,
   "triangle.mini": `let void entry () {
@@ -89,6 +82,5 @@ let void square() {
     Clock 120
     count = count + 1
   }
-  return
 }`,
 };
